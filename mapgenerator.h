@@ -24,10 +24,7 @@ private:
     int constructRight(std::vector<int> &tiles, std::vector<bool> &paths, int pos);
     int constructLeft(std::vector<int> &tiles, std::vector<bool> &paths, int pos);
 
-    void addUpRoute(std::vector<int> &tiles, int pos);
-    void addDownRoute(std::vector<int> &tiles, int pos);
-    void addRightRoute(std::vector<int> &tiles, int pos);
-    void addLeftRoute(std::vector<int> &tiles, int pos);
+    void addRoute(std::vector<int> &tiles, int pos, unsigned int direction);
 
     std::mt19937 gen;
 };
