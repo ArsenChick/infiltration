@@ -6,6 +6,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        enemy.cpp \
+        hero.cpp \
         main.cpp \
         map.cpp \
         mapgenerator.cpp
@@ -17,5 +19,7 @@ INCLUDEPATH += $$PWD/external/SFML-2.5.1/include
 DEPENDPATH += $$PWD/external/SFML-2.5.1/include
 
 HEADERS += \
+    enemy.h \
+    hero.h \
     map.h \
     mapgenerator.h
