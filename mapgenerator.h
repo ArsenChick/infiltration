@@ -6,6 +6,9 @@
 #define ROUTEDOWN 2
 #define ROUTERIGHT 1
 
+#define LHEIGHT 10
+#define LWIDTH 10
+
 #include <vector>
 #include <random>
 

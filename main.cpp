@@ -1,18 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
+
 #include "mapgenerator.h"
 #include "enemy.h"
 #include "hero.h"
 #include "map.h"
-
-void keyboard(float time, float& speed, float& CurrentFrame, sf::Sprite& hero_sprite);
 
 int main()
 {
     float CurrentFrame = 0;
 
     // Creating the window
-    sf::RenderWindow window(sf::VideoMode(640, 640), "Tilemap");
+    sf::RenderWindow window(sf::VideoMode(64*LWIDTH, 64*LHEIGHT), "Tilemap");
     window.setFramerateLimit(60);
 
     // Loading hero
@@ -37,14 +36,14 @@ int main()
     sf::Clock clock;
 
     // Creating level
-    std::vector<int> level(100, 0);
+    std::vector<int> level(LHEIGHT*LWIDTH, 0);
 
     MapGenerator *mg = new MapGenerator;
     mg->levelGenerate(level);
     delete mg;
 
     Map map;
-    if (!map.load("map.png", sf::Vector2u(64, 64), level, 10, 10))
+    if (!map.load("map.png", sf::Vector2u(64, 64), level, LWIDTH, LHEIGHT))
         return -1;
 
     // Running the main loop

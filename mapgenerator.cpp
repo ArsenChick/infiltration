@@ -9,22 +9,37 @@ MapGenerator::MapGenerator() {
 
 void MapGenerator::levelGenerate(std::vector<int> &level)
 {
-    std::vector<bool> paths(100, false);
+    std::vector<bool> paths(LHEIGHT*LWIDTH, false);
     paths[0] = true;
     constructTree(level, paths, 0);
 
-    int addVertex;
-    addVertex = (gen() % 11) + 40;
-    for(int i = 0; i < 100; i++) {
+    float leftV; int addVertices;
+    leftV = (LHEIGHT - 1) * (LWIDTH - 1);
+    addVertices = gen() % int(leftV * 0.3 + 1);
+    addVertices += int(leftV * 0.4);
+
+    for(int i = 0; i < LHEIGHT*LWIDTH; i++) {
+        if (gen() % 8 > 5) {
+            addRoute(level, i, ROUTEUP);
+            addVertices--;
+            continue;
+        }
+        if (gen() % 8 > 5) {
+            addRoute(level, i, ROUTELEFT);
+            addVertices--;
+            continue;
+        }
         if (gen() % 8 > 2) {
             addRoute(level, i, ROUTERIGHT);
-            addVertex--;
+            addVertices--;
+            continue;
         }
         if (gen() % 8 > 2) {
             addRoute(level, i, ROUTEDOWN);
-            addVertex--;
+            addVertices--;
+            continue;
         }
-        if (addVertex == 0)
+        if (addVertices == 0)
            break;
     }
 }
@@ -49,8 +64,8 @@ void MapGenerator::constructTree(std::vector<int> &tiles, std::vector<bool> &pat
 }
 
 int MapGenerator::constructUp(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
-    int row = pos / 10;
-    int newpos = pos - 10;
+    int row = pos / LWIDTH;
+    int newpos = pos - LWIDTH;
 
     if((row - 1 >= 0) && (paths[newpos] != true)) {
         tiles[pos] += ROUTEUP;
@@ -63,10 +78,10 @@ int MapGenerator::constructUp(std::vector<int> &tiles, std::vector<bool> &paths,
 }
 
 int MapGenerator::constructDown(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
-    int row = pos / 10;
-    int newpos = pos + 10;
+    int row = pos / LWIDTH;
+    int newpos = pos + LWIDTH;
 
-    if((row + 1 < 10) && (paths[newpos] != true)) {
+    if((row + 1 < LHEIGHT) && (paths[newpos] != true)) {
         tiles[pos] += ROUTEDOWN;
         tiles[newpos] += ROUTEUP;
         paths[newpos] = true;
@@ -77,10 +92,10 @@ int MapGenerator::constructDown(std::vector<int> &tiles, std::vector<bool> &path
 }
 
 int MapGenerator::constructRight(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
-    int col = pos % 10;
+    int col = pos % LWIDTH;
     int newpos = pos + 1;
 
-    if((col + 1 < 10) && (paths[newpos] != true)) {
+    if((col + 1 < LWIDTH) && (paths[newpos] != true)) {
         tiles[pos] += ROUTERIGHT;
         tiles[newpos] += ROUTELEFT;
         paths[newpos] = true;
@@ -91,7 +106,7 @@ int MapGenerator::constructRight(std::vector<int> &tiles, std::vector<bool> &pat
 }
 
 int MapGenerator::constructLeft(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
-    int col = pos % 10;
+    int col = pos % LWIDTH;
     int newpos = pos - 1;
 
     if((col - 1 >= 0) && (paths[newpos] != true)) {
@@ -105,13 +120,13 @@ int MapGenerator::constructLeft(std::vector<int> &tiles, std::vector<bool> &path
 }
 
 void MapGenerator::addRoute(std::vector<int> &tiles, int pos, unsigned int direction) {
-    int row = pos / 10;
-    int col = pos % 10;
+    int row = pos / LWIDTH;
+    int col = pos % LWIDTH;
     int newpos;
 
     switch(direction) {
     case ROUTEUP: {
-        newpos = pos - 10;
+        newpos = pos - LWIDTH;
         if((row - 1 >= 0) && ((tiles[pos] & ROUTEUP) == 0)) {
             tiles[pos] += ROUTEUP;
             tiles[newpos] += ROUTEDOWN;
@@ -119,8 +134,8 @@ void MapGenerator::addRoute(std::vector<int> &tiles, int pos, unsigned int direc
         break;
     }
     case ROUTEDOWN: {
-        newpos = pos + 10;
-        if((row + 1 < 10) && ((tiles[pos] & ROUTEDOWN) == 0)) {
+        newpos = pos + LWIDTH;
+        if((row + 1 < LHEIGHT) && ((tiles[pos] & ROUTEDOWN) == 0)) {
             tiles[pos] += ROUTEDOWN;
             tiles[newpos] += ROUTEUP;
         }
@@ -128,7 +143,7 @@ void MapGenerator::addRoute(std::vector<int> &tiles, int pos, unsigned int direc
     }
     case ROUTERIGHT: {
         newpos = pos + 1;
-        if((col + 1 < 10) && ((tiles[pos] & ROUTERIGHT) == 0)) {
+        if((col + 1 < LWIDTH) && ((tiles[pos] & ROUTERIGHT) == 0)) {
             tiles[pos] += ROUTERIGHT;
             tiles[newpos] += ROUTELEFT;
         }
