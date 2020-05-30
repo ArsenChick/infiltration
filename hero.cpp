@@ -2,10 +2,10 @@
 
 Hero::Hero()
 {
-    Hero::set_startconditions(0, 0);
+    speed = 0.2;
 }
 
-int Hero::set_startconditions(int start_x, int start_y)
+int Hero::setCoordintaes(int start_x, int start_y)
 {
     /* updating x if available */
     if (start_x > -1 && start_x < 200)
@@ -22,32 +22,39 @@ int Hero::set_startconditions(int start_x, int start_y)
     return 0;
 }
 
-sf::Sprite Hero::load(sf::Texture hero_texture)
+void Hero::load(sf::Texture *hero_texture)
 {
-    sf::Sprite sprite;
+    texture = hero_texture;
+    sprite.setTexture(*texture);
 
-    sprite.setTexture(hero_texture);
-    sprite.setPosition(15, 15);
-
-    return sprite;
+    sprite.setPosition(x, y);
+    sprite.setTextureRect(sf::IntRect(0, 0, 64, 96));
 }
 
-float Hero::get_x()
+void Hero::move(float time, float& CurrentFrame)
 {
-    return x;
-}
-
-float Hero::get_y()
-{
-    return y;
-}
-
-int Hero::get_dx()
-{
-    return dx;
-}
-
-int Hero::get_dy()
-{
-    return dy;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*64, 96, 64, 96));
+        sprite.move(-speed*time, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*64, 192, 64, 96));
+        sprite.move(speed*time, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*64, 288, 64, 96));
+        sprite.move(0, -speed*time);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*64, 0, 64, 96));
+        sprite.move(0, speed*time);
+    }
 }

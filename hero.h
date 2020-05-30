@@ -6,18 +6,25 @@
 class Hero
 {
 private:
+    sf::Sprite sprite;
+    sf::Texture *texture;
+
     float x; // x coordinate on the map
     float y; // y coordinate on the map
-    int dx; // horizontal speed
-    int dy; // vertical speed
+
+    float speed;
+
 public:
-    Hero(); // constructor
-    sf::Sprite load(sf::Texture hero_texture); // loading custom texture for an enemy
-    float get_x(); // getting x coordinate
-    float get_y(); // getting y coordinate
-    int get_dx(); // getting horizontal speed
-    int get_dy(); // getting vertical speed
-    int set_startconditions(int start_x, int start_y); // setting start x and y
+    Hero();
+
+    void load(sf::Texture* hero_texture);
+    int setCoordintaes(int start_x, int start_y);
+    void move(float time, float& CurrentFrame);
+
+    float getX() {return x;}
+    float getY() {return y;}
+
+    sf::Sprite getSprite() {return sprite;}
 };
 
 

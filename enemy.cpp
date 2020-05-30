@@ -1,31 +1,31 @@
 #include "enemy.h"
 
-Enemy::Enemy (int look)
+Enemy::Enemy()
 {
-    en_dx = 5;         // скорость по х
-    en_dy = 5;         // скороссть по у
-    en_look = look;
+    dx = 5;
+    dy = 5;
+    look = UP;
 }
 
-void Enemy::coordinate(int x, int y)
+void Enemy::setCoordinates(int new_x, int new_y)
 {
-    en_x = x;
-    en_y = y;
+    x = new_x;
+    y = new_y;
 }
 
 void Enemy::load(sf::Texture *enemy_texture)
 {
-    // Loading
-    en_texture = enemy_texture;
-    en_sprite.setTexture(*en_texture);
-    en_sprite.setPosition(en_x, en_y);
-    en_sprite.setTextureRect(sf::IntRect(0, 0, 179, 187));
+    texture = enemy_texture;
+    sprite.setTexture(*texture);
+
+    sprite.setPosition(x, y);
+    sprite.setTextureRect(sf::IntRect(0, 0, 179, 187));
 }
 
-int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, int time)
+/* int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, int time)
 {
     float distance = 200;
-    float x; float y;
+    float pos_x; float pos_y;
     // Без понятия что по движению, буду считать
     // что середина координаты спрайта находится по середине коридора
     // возможно потребуется возможность определять координату стены либо её отдаленность?
@@ -36,9 +36,9 @@ int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, i
     //  without time yet, для задержки(и постоять до разворота и для 2 секунд на убежать нужен таймер)
 
     // Up
-    x = en_x + en_sprite.getGlobalBounds().width / 2;   // середина спрайта -> середина коридора
-    y = en_y + en_sprite.getGlobalBounds().height / 2;  // задняя линия видимости врага
-    if ((en_look == 0) && (player_y < y)) {
+    pos_x = x + sprite.getGlobalBounds().width / 2;   // середина спрайта -> середина коридора
+    pos_y = y + sprite.getGlobalBounds().height / 2;  // задняя линия видимости врага
+    if ((look == 0) && (player_y < y)) {
         if ((y - (player_y + pl_height)) < distance) {
             if (((x - corridor / 2) <= player_x) && ((player_x + pl_width) <= (x + corridor / 2))) {
                 return 1;
@@ -47,9 +47,9 @@ int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, i
     }
 
     // Right
-    x = en_x + en_sprite.getGlobalBounds().width / 2;   // задняя линия видимости врага
-    y = en_y + en_sprite.getGlobalBounds().height / 2;  // середина спрайта -> середина коридора
-    if ((en_look == 1) && (player_x > x)) {
+    pos_x = x + sprite.getGlobalBounds().width / 2;   // задняя линия видимости врага
+    pos_y = y + sprite.getGlobalBounds().height / 2;  // середина спрайта -> середина коридора
+    if ((look == 1) && (player_x > x)) {
         if ((player_x - x) < distance) {
             if (((y - corridor / 2) <= player_y) && ((player_y + pl_height) <= (y + corridor / 2))) {
                 return 1;
@@ -58,9 +58,9 @@ int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, i
     }
 
     // Down
-    x = en_x + en_sprite.getGlobalBounds().width / 2;   // середина спрайта -> середина коридора
-    y = en_y + en_sprite.getGlobalBounds().height / 2;  // задняя линия видимости врага
-    if ((en_look == 2) && (player_y > y)) {
+    pos_x = x + sprite.getGlobalBounds().width / 2;   // середина спрайта -> середина коридора
+    pos_y = y + sprite.getGlobalBounds().height / 2;  // задняя линия видимости врага
+    if ((look == 2) && (player_y > y)) {
         if ((player_y - y) < distance) {
             if (((x - corridor / 2) <= player_x) && ((player_x + pl_width) <= (x + corridor / 2))) {
                 return 1;
@@ -69,9 +69,9 @@ int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, i
     }
 
     // Left
-    x = en_x + en_sprite.getGlobalBounds().width / 2;   // задняя линия видимости врага
-    y = en_y + en_sprite.getGlobalBounds().height / 2;  // середина спрайта -> середина коридора
-    if ((en_look == 3) && (player_x < x)) {
+    pos_x = x + sprite.getGlobalBounds().width / 2;   // задняя линия видимости врага
+    pos_y = y + sprite.getGlobalBounds().height / 2;  // середина спрайта -> середина коридора
+    if ((look == 3) && (player_x < x)) {
         if (((x - (player_x + pl_width)) < distance)) {
             if (((y - corridor / 2) <= player_y) && ((player_y + pl_height) <= (y + corridor / 2))) {
                 return 1;
@@ -80,4 +80,4 @@ int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, i
     }
 
     return 0;
-}
+} */

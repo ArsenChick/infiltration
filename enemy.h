@@ -1,35 +1,45 @@
 #ifndef ENEMY_H
 #define ENEMY_H
+
 #include <SFML/Graphics.hpp>
+
+#define UP 0
+#define RIGHT 1
+#define DOWN 2
+#define LEFT 3
 
 class Enemy
 {
 
 private:
-    sf::Sprite en_sprite;
-    sf::Texture *en_texture;
-    float en_x;
-    float en_y;
-    int en_dx;              // скорость по х
-    int en_dy;              // скорость по у
-    int en_look = 3;        // направление взгляда 0 - верх, 1 - право, 2 - вниз, 3 лево
+    sf::Sprite sprite;
+    sf::Texture *texture;
+
+    float x;
+    float y;
+
+    int dx;
+    int dy;
+
+    unsigned int look = LEFT;        // направление взгляда 0 - верх, 1 - право, 2 - вниз, 3 лево
     // переменная time понадобится для 2 секундной задержки
     // переменная статуса для убийства -> удаления
 
 public:
-    Enemy (int look);     // create enemy
+    Enemy();
 
-    void load(sf::Texture *enemy_texture);  // load sprite
+    void load(sf::Texture *enemy_texture);
+    void setCoordinates(int x, int y);
 
-    int search(float player_x, float player_y, int pl_height, int pl_width, int time);   // check hero
+    // int search(float player_x, float player_y, int pl_height, int pl_width, int time);
 
-    void coordinate(int x, int y);  // set coordinates
+    float getX() {return x;}
+    float getY() {return y;}
 
-    // void move перемещение
+    int getDX() {return dx;}
+    int getDY() {return dy;}
 
-    float getX() {return en_x;}
-    float getY() {return en_y;}
-    sf::Sprite getSprite() {return en_sprite;}
+    sf::Sprite getSprite() {return sprite;}
 };
 
 
