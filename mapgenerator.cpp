@@ -3,8 +3,8 @@
 #include <chrono>
 
 MapGenerator::MapGenerator() {
-    std::random_device device;
-    gen.seed(device());
+    auto now = std::chrono::high_resolution_clock::now();
+    gen.seed(now.time_since_epoch().count());
 }
 
 void MapGenerator::levelGenerate(std::vector<int> &level)
