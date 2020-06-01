@@ -2,6 +2,7 @@
 #define MAPGENERATOR_H
 
 #include <vector>
+#include <chrono>
 #include <random>
 #include "defines.h"
 

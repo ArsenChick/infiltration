@@ -1,6 +1,5 @@
 #include "mapgenerator.h"
 #include <algorithm>
-#include <chrono>
 
 MapGenerator::MapGenerator() {
     auto now = std::chrono::high_resolution_clock::now();

@@ -6,12 +6,14 @@
 #include "hero.h"
 #include "map.h"
 
+void spawnCharacters(Hero &hero, Enemy* soldier);
+
 int main()
 {
     float CurrentFrame = 0;
 
     // Creating the window
-    sf::RenderWindow window(sf::VideoMode(128*LWIDTH, 128*LHEIGHT), "Tilemap");
+    sf::RenderWindow window(sf::VideoMode(TILESIZE*LWIDTH, TILESIZE*LHEIGHT), "Tilemap");
     window.setFramerateLimit(60);
 
     // Loading hero
@@ -20,7 +22,6 @@ int main()
         exit(EXIT_FAILURE);
 
     Hero hero;
-    hero.setCoordintaes(35, 35);
     hero.load(&hero_texture);
 
     // Loading enemy
@@ -29,10 +30,8 @@ int main()
         exit(EXIT_FAILURE);
 
     Enemy soldier[5];
-    for (int i = 0; i < 5; i++) {
-        soldier[i].setCoordinates(50 * i, 200);
+    for (int i = 0; i < 5; i++)
         soldier[i].load(&enemy_texture);
-    }
 
     // Timer
     sf::Clock clock;
@@ -43,6 +42,8 @@ int main()
     MapGenerator *mg = new MapGenerator;
     mg->levelGenerate(level);
     delete mg;
+
+    spawnCharacters(hero, soldier);
 
     Map map;
     if (!map.load("map.png", sf::Vector2u(128, 128), level, LWIDTH, LHEIGHT))
@@ -70,7 +71,7 @@ int main()
 
         window.draw(map);
 
-        // Отрисовка спрайтов героя и врага
+        // Draw hero and enemies
         window.draw(hero.getSprite());
         for (int i = 0; i < 5; i++)
             window.draw(soldier[i].getSprite());
@@ -80,4 +81,32 @@ int main()
     }
 
     return 0;
+}
+
+void spawnCharacters(Hero &hero, Enemy* soldier)
+{
+    std::mt19937 gen;
+    auto now = std::chrono::high_resolution_clock::now();
+    gen.seed(now.time_since_epoch().count());
+
+    int hero_pos = gen() % (LHEIGHT*LWIDTH);
+    hero.setStartPosition(hero_pos);
+
+    int row = hero_pos / LWIDTH;
+    int col = hero_pos % LWIDTH;
+
+    for (int i = 0; i < 5; i++) {
+        int enemy_col, enemy_row;
+
+        while(true) {
+            enemy_col = gen() % LWIDTH;
+            enemy_row = gen() % LHEIGHT;
+            if ((enemy_col < col - 1 || enemy_col > col + 1) &&
+                (enemy_row < row - 1 || enemy_row > row + 1))
+                break;
+        }
+
+        int enemy_pos = enemy_row * LWIDTH + enemy_col;
+        soldier[i].setStartPosition(enemy_pos);
+    }
 }

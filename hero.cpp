@@ -6,10 +6,16 @@ Hero::Hero()
     pos = 0;
 }
 
-void Hero::setCoordintaes(int start_x, int start_y)
+void Hero::setStartPosition(int tileno)
 {
-    x = start_x;
-    y = start_y;
+    pos = tileno;
+
+    int row = tileno / LWIDTH;
+    int col = tileno % LWIDTH;
+
+    x = col * TILESIZE + TILESIZE / 2 - HEROW / 2;
+    y = row * TILESIZE + TILESIZE / 2 - HEROH / 2;
+    sprite.setPosition(x, y);
 }
 
 void Hero::load(sf::Texture *hero_texture)
@@ -17,7 +23,6 @@ void Hero::load(sf::Texture *hero_texture)
     texture = hero_texture;
     sprite.setTexture(*texture);
 
-    sprite.setPosition(x, y);
     sprite.setTextureRect(sf::IntRect(0, 0, HEROW, HEROH));
 }
 

@@ -19,4 +19,7 @@
 #define HEROH 48
 #define HEROW 32
 
+#define ENEMYH 48
+#define ENEMYW 55
+
 #endif // MACROS_H

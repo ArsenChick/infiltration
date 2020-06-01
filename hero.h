@@ -23,7 +23,7 @@ public:
     Hero();
 
     void load(sf::Texture* hero_texture);
-    void setCoordintaes(int start_x, int start_y);
+    void setStartPosition(int tileno);
     void move(std::vector<int>& level, float time, float& CurrentFrame);
 
     float getX() {return x;}

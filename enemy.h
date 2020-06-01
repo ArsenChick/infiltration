@@ -17,6 +17,7 @@ private:
     int dx;
     int dy;
 
+    int pos;
     unsigned int look = LEFT;        // направление взгляда 0 - верх, 1 - право, 2 - вниз, 3 лево
     // переменная time понадобится для 2 секундной задержки
     // переменная статуса для убийства -> удаления
@@ -25,7 +26,7 @@ public:
     Enemy();
 
     void load(sf::Texture *enemy_texture);
-    void setCoordinates(int x, int y);
+    void setStartPosition(int tileno);
 
     // int search(float player_x, float player_y, int pl_height, int pl_width, int time);
 

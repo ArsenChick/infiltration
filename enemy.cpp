@@ -7,10 +7,16 @@ Enemy::Enemy()
     look = UP;
 }
 
-void Enemy::setCoordinates(int new_x, int new_y)
+void Enemy::setStartPosition(int tileno)
 {
-    x = new_x;
-    y = new_y;
+    pos = tileno;
+
+    int row = tileno / LWIDTH;
+    int col = tileno % LWIDTH;
+
+    x = col * TILESIZE + TILESIZE / 2 - ENEMYW / 2;
+    y = row * TILESIZE + TILESIZE / 2 - ENEMYH / 2;
+    sprite.setPosition(x, y);
 }
 
 void Enemy::load(sf::Texture *enemy_texture)
@@ -18,8 +24,7 @@ void Enemy::load(sf::Texture *enemy_texture)
     texture = enemy_texture;
     sprite.setTexture(*texture);
 
-    sprite.setPosition(x, y);
-    sprite.setTextureRect(sf::IntRect(0, 0, 105, 92));
+    sprite.setTextureRect(sf::IntRect(0, 0, ENEMYW, ENEMYH));
 }
 
 /* int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, int time)
