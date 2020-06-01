@@ -1,16 +1,9 @@
 #ifndef MAPGENERATOR_H
 #define MAPGENERATOR_H
 
-#define ROUTEUP 8
-#define ROUTELEFT 4
-#define ROUTEDOWN 2
-#define ROUTERIGHT 1
-
-#define LHEIGHT 10
-#define LWIDTH 10
-
 #include <vector>
 #include <random>
+#include "defines.h"
 
 class MapGenerator
 {

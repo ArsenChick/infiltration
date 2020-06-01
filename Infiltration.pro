@@ -19,6 +19,7 @@ INCLUDEPATH += $$PWD/external/SFML-2.5.1/include
 DEPENDPATH += $$PWD/external/SFML-2.5.1/include
 
 HEADERS += \
+    defines.h \
     enemy.h \
     hero.h \
     map.h \

@@ -2,11 +2,7 @@
 #define ENEMY_H
 
 #include <SFML/Graphics.hpp>
-
-#define UP 0
-#define RIGHT 1
-#define DOWN 2
-#define LEFT 3
+#include "defines.h"
 
 class Enemy
 {

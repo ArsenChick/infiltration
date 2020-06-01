@@ -2,6 +2,7 @@
 #define HERO_H
 
 #include <SFML/Graphics.hpp>
+#include "defines.h"
 
 class Hero
 {
@@ -14,12 +15,16 @@ private:
 
     float speed;
 
+    int pos;
+
+    void animate(float time, float& CurrentFrame);
+
 public:
     Hero();
 
     void load(sf::Texture* hero_texture);
-    int setCoordintaes(int start_x, int start_y);
-    void move(float time, float& CurrentFrame);
+    void setCoordintaes(int start_x, int start_y);
+    void move(std::vector<int>& level, float time, float& CurrentFrame);
 
     float getX() {return x;}
     float getY() {return y;}

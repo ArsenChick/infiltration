@@ -11,26 +11,28 @@ int main()
     float CurrentFrame = 0;
 
     // Creating the window
-    sf::RenderWindow window(sf::VideoMode(64*LWIDTH, 64*LHEIGHT), "Tilemap");
+    sf::RenderWindow window(sf::VideoMode(128*LWIDTH, 128*LHEIGHT), "Tilemap");
     window.setFramerateLimit(60);
 
     // Loading hero
     sf::Texture hero_texture;
-    if(!hero_texture.loadFromFile("image.png"))
+    if (!hero_texture.loadFromFile("image.png"))
         exit(EXIT_FAILURE);
 
     Hero hero;
-    hero.setCoordintaes(50, 50);
+    hero.setCoordintaes(35, 35);
     hero.load(&hero_texture);
 
     // Loading enemy
     sf::Texture enemy_texture;
-    if(!enemy_texture.loadFromFile("enemy.png"))
+    if (!enemy_texture.loadFromFile("enemy.png"))
         exit(EXIT_FAILURE);
 
-    Enemy soldier;
-    soldier.setCoordinates(200,200);
-    soldier.load(&enemy_texture);
+    Enemy soldier[5];
+    for (int i = 0; i < 5; i++) {
+        soldier[i].setCoordinates(50 * i, 200);
+        soldier[i].load(&enemy_texture);
+    }
 
     // Timer
     sf::Clock clock;
@@ -43,7 +45,7 @@ int main()
     delete mg;
 
     Map map;
-    if (!map.load("map.png", sf::Vector2u(64, 64), level, LWIDTH, LHEIGHT))
+    if (!map.load("map.png", sf::Vector2u(128, 128), level, LWIDTH, LHEIGHT))
         return -1;
 
     // Running the main loop
@@ -57,20 +59,21 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if(event.type == sf::Event::Closed)
+            if (event.type == sf::Event::Closed)
                 window.close();
         }
 
         // draw the map
         window.clear();
 
-        hero.move(time, CurrentFrame);
+        hero.move(level, time, CurrentFrame);
 
         window.draw(map);
 
         // Отрисовка спрайтов героя и врага
         window.draw(hero.getSprite());
-        window.draw(soldier.getSprite());
+        for (int i = 0; i < 5; i++)
+            window.draw(soldier[i].getSprite());
 
 
         window.display();

@@ -19,7 +19,7 @@ void Enemy::load(sf::Texture *enemy_texture)
     sprite.setTexture(*texture);
 
     sprite.setPosition(x, y);
-    sprite.setTextureRect(sf::IntRect(0, 0, 179, 187));
+    sprite.setTextureRect(sf::IntRect(0, 0, 105, 92));
 }
 
 /* int Enemy::search(float player_x, float player_y, int pl_height, int pl_width, int time)
