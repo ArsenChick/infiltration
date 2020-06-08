@@ -13,7 +13,7 @@ int main()
     float CurrentFrame = 0;
 
     // Creating the window
-    sf::RenderWindow window(sf::VideoMode(TILESIZE*LWIDTH, TILESIZE*LHEIGHT), "Tilemap");
+    sf::RenderWindow window(sf::VideoMode(640, 480), "Tilemap", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
     // Loading hero
@@ -64,8 +64,9 @@ int main()
                 window.close();
         }
 
+        window.setView(hero.getView());
         // draw the map
-        window.clear();
+        window.clear(sf::Color(180, 180, 180));
 
         hero.move(level, time, CurrentFrame);
 

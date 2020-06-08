@@ -2,8 +2,9 @@
 
 Hero::Hero()
 {
-    speed = 0.2;
+    speed = 0.5;
     pos = 0;
+    view.reset(sf::FloatRect(0, 0, TILESIZE*MAPSCALE, TILESIZE*MAPSCALE));
 }
 
 void Hero::setStartPosition(int tileno)
@@ -16,6 +17,7 @@ void Hero::setStartPosition(int tileno)
     x = col * TILESIZE + TILESIZE / 2 - HEROW / 2;
     y = row * TILESIZE + TILESIZE / 2 - HEROH / 2;
     sprite.setPosition(x, y);
+    view.setCenter(x + HEROW/2, y + HEROH/2);
 }
 
 void Hero::load(sf::Texture *hero_texture)
@@ -87,7 +89,7 @@ void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
     y = sprite.getPosition().y;
 
     pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;
-
+    view.setCenter(x + HEROW/2, y + HEROH/2);
 }
 
 void Hero::animate(float time, float &CurrentFrame)

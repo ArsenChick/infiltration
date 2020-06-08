@@ -9,6 +9,7 @@ class Hero
 private:
     sf::Sprite sprite;
     sf::Texture *texture;
+    sf::View view;
 
     float x; // x coordinate on the map
     float y; // y coordinate on the map
@@ -30,6 +31,7 @@ public:
     float getY() {return y;}
 
     sf::Sprite getSprite() {return sprite;}
+    sf::View getView() {return view;};
 };
 
 
