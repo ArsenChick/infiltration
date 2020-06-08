@@ -2,52 +2,114 @@
 
 Hero::Hero()
 {
-    Hero::set_startconditions(0, 0);
+    speed = 0.2;
+    pos = 0;
 }
 
-int Hero::set_startconditions(int start_x, int start_y)
+void Hero::setStartPosition(int tileno)
 {
-    /* updating x if available */
-    if (start_x > -1 && start_x < 200)
-        x = start_x;
-    else
-        return -1;
+    pos = tileno;
 
-    /* updating y if available */
-    if (start_y > -1 && start_y < 200)
-        x = start_y;
-    else
-        return -1;
+    int row = tileno / LWIDTH;
+    int col = tileno % LWIDTH;
 
-    return 0;
+    x = col * TILESIZE + TILESIZE / 2 - HEROW / 2;
+    y = row * TILESIZE + TILESIZE / 2 - HEROH / 2;
+    sprite.setPosition(x, y);
 }
 
-sf::Sprite Hero::load(sf::Texture hero_texture)
+void Hero::load(sf::Texture *hero_texture)
 {
-    sf::Sprite sprite;
+    texture = hero_texture;
+    sprite.setTexture(*texture);
 
-    sprite.setTexture(hero_texture);
-    sprite.setPosition(15, 15);
-
-    return sprite;
+    sprite.setTextureRect(sf::IntRect(0, 0, HEROW, HEROH));
 }
 
-float Hero::get_x()
+void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
 {
-    return x;
+    int row = pos / LWIDTH;
+    int col = pos % LWIDTH;
+
+    int left_bound = col * TILESIZE + WALLSIZE;
+    int upper_bound = row * TILESIZE + WALLSIZE;
+    int right_bound = (col+1) * TILESIZE - WALLSIZE - HEROW;
+    int lower_bound = (row+1) * TILESIZE - WALLSIZE - HEROH;
+
+    animate(time, CurrentFrame);
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+
+        if ((level[pos] & ROUTELEFT) != 0) {
+            if (y >= upper_bound && y < lower_bound)
+                sprite.move(-speed*time, 0);
+            else if (x - speed*time >= left_bound)
+                sprite.move(-speed*time, 0);
+        }
+        else if (x - speed*time >= left_bound)
+            sprite.move(-speed*time, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+
+        if ((level[pos] & ROUTERIGHT) != 0) {
+            if (y >= upper_bound && y < lower_bound)
+                sprite.move(speed*time, 0);
+            else if (x + speed*time < right_bound)
+                sprite.move(speed*time, 0);
+        }
+        else if (x + speed*time < right_bound)
+            sprite.move(speed*time, 0);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+
+        if ((level[pos] & ROUTEUP) != 0) {
+            if (x >= left_bound && x < right_bound)
+                sprite.move(0, -speed*time);
+            else if (y - speed*time >= upper_bound)
+                sprite.move(0, -speed*time);
+        }
+        else if (y - speed*time >= upper_bound)
+            sprite.move(0, -speed*time);
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+
+        if ((level[pos] & ROUTEDOWN) != 0) {
+            if (x >= left_bound && x < right_bound)
+                sprite.move(0, speed*time);
+            else if (y + speed*time < lower_bound)
+                sprite.move(0, speed*time);
+        }
+        else if (y + speed*time < lower_bound)
+            sprite.move(0, speed*time);
+    }
+
+    x = sprite.getPosition().x;
+    y = sprite.getPosition().y;
+
+    pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;
+
 }
 
-float Hero::get_y()
+void Hero::animate(float time, float &CurrentFrame)
 {
-    return y;
-}
-
-int Hero::get_dx()
-{
-    return dx;
-}
-
-int Hero::get_dy()
-{
-    return dy;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*HEROW, HEROH, HEROW, HEROH));
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*HEROW, 2*HEROH, HEROW, HEROH));
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*HEROW, 3*HEROH, HEROW, HEROH));
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*HEROW, 0, HEROW, HEROH));
+    }
 }
