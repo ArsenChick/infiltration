@@ -33,10 +33,10 @@ void Enemy::load(sf::Texture *enemy_texture)
 
 void Enemy::move(std::vector<int>& level, float time)
 {
-    int changes = gen() % 10;
+    /*int changes = gen() % 10;
     if ((changes == 1) && (time_w == -1) && (clock_e.getElapsedTime().asSeconds() > 1)) {
         time_w = clock_e.getElapsedTime().asSeconds();
-    }
+    }*/
 
     if (time_w != -1) {
         if (clock_e.getElapsedTime().asSeconds() - time_w >= 1) {
