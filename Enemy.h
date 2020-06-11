@@ -16,9 +16,6 @@ private:
 
     float x;
     float y;
-
-    int dx;
-    int dy;
     float speed;
 
     int pos;
@@ -32,8 +29,6 @@ public:
     void load(sf::Texture *enemy_texture);
     void setStartPosition(int tileno);
     void move(std::vector<int>& level, float time);
-
-    // int search(float player_x, float player_y, int pl_height, int pl_width, int time);
 
     float getX() {return x;}
     float getY() {return y;}
