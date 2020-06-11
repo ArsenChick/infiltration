@@ -3,8 +3,6 @@
 
 Enemy::Enemy()
 {
-    dx = 5;
-    dy = 5;
     speed = 0.1;
     look = UP;
 }
@@ -117,4 +115,3 @@ void Enemy::move(std::vector<int>& level, float time)
         time_w = clock_e.getElapsedTime().asSeconds();
     }
 }
-
