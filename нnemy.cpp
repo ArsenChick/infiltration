@@ -47,8 +47,8 @@ void Enemy::move(std::vector<int>& level, float time)
     int row = pos / LWIDTH;
     int col = pos % LWIDTH;
 
-    float for_y = row * TILESIZE + WALLSIZE + (float)(TILESIZE - 2 * WALLSIZE - ENEMYH) / 2;
-    float for_x = col * TILESIZE + WALLSIZE + (float)(TILESIZE - 2 * WALLSIZE - ENEMYW) / 2;
+    float for_y = row * TILESIZE + (float)(TILESIZE - ENEMYH) / 2;
+    float for_x = col * TILESIZE + (float)(TILESIZE - ENEMYW) / 2;
 
     float left_bound = col * TILESIZE + WALLSIZE;
     float upper_bound = row * TILESIZE + WALLSIZE;
