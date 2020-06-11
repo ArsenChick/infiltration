@@ -2,14 +2,13 @@
 
 Hero::Hero()
 {
-    speed = 0.2;
+    speed = 0.15;
     pos = 0;
 }
 
 void Hero::setStartPosition(int tileno)
 {
     pos = tileno;
-
     int row = tileno / LWIDTH;
     int col = tileno % LWIDTH;
 
@@ -22,7 +21,6 @@ void Hero::load(sf::Texture *hero_texture)
 {
     texture = hero_texture;
     sprite.setTexture(*texture);
-
     sprite.setTextureRect(sf::IntRect(0, 0, HEROW, HEROH));
 }
 

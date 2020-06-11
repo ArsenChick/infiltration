@@ -10,13 +10,13 @@ Enemy::Enemy()
 void Enemy::setStartPosition(int tileno)
 {
     pos = tileno;
-
     int row = tileno / LWIDTH;
     int col = tileno % LWIDTH;
 
     x = col * TILESIZE + (float)TILESIZE / 2 - (float)ENEMYW / 2;
     y = row * TILESIZE + (float)TILESIZE / 2 - (float)ENEMYH / 2;
     sprite.setPosition(x, y);
+
     gen.seed(rand() % (int)x + y);
 }
 
@@ -24,7 +24,6 @@ void Enemy::load(sf::Texture *enemy_texture)
 {
     texture = enemy_texture;
     sprite.setTexture(*texture);
-
     sprite.setTextureRect(sf::IntRect(0, 0, ENEMYW, ENEMYH));
 }
 

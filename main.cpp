@@ -72,12 +72,9 @@ int main()
            soldier[i].move(level, time);
 
         window.draw(map);
-
-        // Draw hero and enemies
         window.draw(hero.getSprite());
         for (int i = 0; i < 5; i++)
             window.draw(soldier[i].getSprite());
-
 
         window.display();
     }

@@ -12,7 +12,6 @@ private:
 
     float x; // x coordinate on the map
     float y; // y coordinate on the map
-
     float speed;
 
     int pos;
