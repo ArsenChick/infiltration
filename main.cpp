@@ -68,6 +68,8 @@ int main()
         window.clear();
 
         hero.move(level, time, CurrentFrame);
+        for (int i = 0; i < 5; i++)
+           soldier[i].move(level, time);
 
         window.draw(map);
 
