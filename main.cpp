@@ -65,19 +65,19 @@ int main()
         }
 
         window.setView(hero.getView());
+      
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
         hero.move(level, time, CurrentFrame);
+        for (int i = 0; i < 5; i++)
+           soldier[i].move(level, time);
 
         window.draw(map);
-
-        // Draw hero and enemies
         window.draw(hero.getSprite());
         for (int i = 0; i < 5; i++)
             window.draw(soldier[i].getSprite());
-
-
+      
         window.display();
     }
 

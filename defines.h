@@ -6,6 +6,7 @@
 #define ROUTEDOWN 2
 #define ROUTERIGHT 1
 
+#define MAPSCALE 5
 #define LHEIGHT 20
 #define LWIDTH 20
 #define TILESIZE 128
@@ -18,9 +19,6 @@
 
 #define HEROH 48
 #define HEROW 32
-
-#define MAPSCALE 5
-
 #define ENEMYH 48
 #define ENEMYW 55
 
