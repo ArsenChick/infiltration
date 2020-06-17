@@ -14,7 +14,7 @@ private:
 
     float x; // x coordinate on the map
     float y; // y coordinate on the map
-    float speed = 0.6;
+    float speed = 0.1;
 
     unsigned int pos = 0;
 

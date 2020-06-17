@@ -17,7 +17,7 @@ private:
 
     float x;
     float y;
-    float speed = 0.2;
+    float speed = 0.15;
 
     unsigned int pos = 0;
     unsigned int look = UP;

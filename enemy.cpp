@@ -136,7 +136,7 @@ int Enemy::hunt(Hero &hero)
 {
     if (dmg_area.intersects(hero.getRect())) {
         if (time_wait != -1) {
-            if (clock.getElapsedTime().asSeconds() - time_wait >= 2) {
+            if (clock.getElapsedTime().asSeconds() - time_wait >= 1) {
                 hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
                 return 2;
             }
