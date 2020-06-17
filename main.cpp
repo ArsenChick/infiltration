@@ -29,8 +29,8 @@ int main()
     if (!enemy_texture.loadFromFile("enemy.png"))
         exit(EXIT_FAILURE);
 
-    Enemy soldier[5];
-    for (int i = 0; i < 5; i++)
+    Enemy soldier[10];
+    for (int i = 0; i < 10; i++)
         soldier[i].load(&enemy_texture);
 
     // Timer
@@ -46,7 +46,7 @@ int main()
     spawnCharacters(hero, soldier);
 
     Map map;
-    if (!map.load("map.png", sf::Vector2u(128, 128), level, LWIDTH, LHEIGHT))
+    if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
 
     // Running the main loop
@@ -62,6 +62,8 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LShift))
+                hero.testbox.setFillColor(sf::Color(0, 0, 255, 100));
         }
 
         window.setView(hero.getView());
@@ -70,14 +72,18 @@ int main()
         window.clear(sf::Color(180, 180, 180));
 
         hero.move(level, time, CurrentFrame);
-        for (int i = 0; i < 5; i++)
-           soldier[i].move(level, time);
+        for (int i = 0; i < 10; i++) {
+            if (soldier[i].hunt(hero) == 0)
+                soldier[i].move(level, time);
+        }
 
         window.draw(map);
+        window.draw(hero.testbox);
         window.draw(hero.getSprite());
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 10; i++) {
+            window.draw(soldier[i].testbox);
             window.draw(soldier[i].getSprite());
-      
+        }
         window.display();
     }
 
@@ -96,7 +102,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
     int row = hero_pos / LWIDTH;
     int col = hero_pos % LWIDTH;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < 10; i++) {
         int enemy_col, enemy_row;
 
         while(true) {
@@ -107,7 +113,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
                 break;
         }
 
-        int enemy_pos = enemy_row * LWIDTH + enemy_col;
+        unsigned int enemy_pos = enemy_row * LWIDTH + enemy_col;
         soldier[i].setStartPosition(enemy_pos);
     }
 }
