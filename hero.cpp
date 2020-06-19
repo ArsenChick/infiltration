@@ -5,6 +5,14 @@ Hero::Hero()
     view.reset(sf::FloatRect(0, 0, MAPSCALE*640, MAPSCALE*480));
 }
 
+void Hero::changeSpeed()
+{
+    if (fabs(speed - DEFAULTSPEED) <= EPS)
+        speed = CROUCHSPEED;
+    else
+        speed = DEFAULTSPEED;
+}
+
 void Hero::setStartPosition(unsigned int tileno)
 {
     pos = tileno;

@@ -2,6 +2,7 @@
 #define HERO_H
 
 #include <SFML/Graphics.hpp>
+#include <cmath>
 #include "defines.h"
 
 class Hero
@@ -14,7 +15,7 @@ private:
 
     float x; // x coordinate on the map
     float y; // y coordinate on the map
-    float speed = 0.1;
+    float speed = DEFAULTSPEED;
 
     unsigned int pos = 0;
 
@@ -26,6 +27,7 @@ public:
     void load(sf::Texture* hero_texture);
     void setStartPosition(unsigned int tileno);
     void move(std::vector<int>& level, float time, float& CurrentFrame);
+    void changeSpeed();
 
     float getX() {return x;}
     float getY() {return y;}

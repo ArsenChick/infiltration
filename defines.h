@@ -21,6 +21,10 @@
 #define ENEMYH 48
 #define ENEMYW 55
 
+#define CROUCHSPEED 0.18
+#define DEFAULTSPEED 0.25
+#define EPS 0.01
+
 #define MAPSCALE 1
 
 #endif // MACROS_H
