@@ -132,17 +132,15 @@ void Enemy::move(std::vector<int>& level, float time)
     }
 }
 
-int Enemy::hunt(Hero &hero)
+int Enemy::hunt(sf::FloatRect heroRect)
 {
-    if (dmg_area.intersects(hero.getSprite().getGlobalBounds())) {
+    if (dmg_area.intersects(heroRect)) {
         if (time_wait != -1) {
             if (clock.getElapsedTime().asSeconds() - time_wait >= 1) {
-                hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
                 return 2;
             }
         }
         else {
-            hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
             time_wait = clock.getElapsedTime().asSeconds();
         }
         return 1;

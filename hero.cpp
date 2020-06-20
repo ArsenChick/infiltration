@@ -37,28 +37,26 @@ void Hero::load(sf::Texture *hero_texture)
     sprite.setTextureRect(sf::IntRect(0, 0, HEROW, HEROH));
 }
 
-void Hero::checkForEnemies(std::vector<sf::FloatRect> &enemyRect)
+void Hero::checkForEnemies(std::vector<sf::FloatRect> &enemyRect, float time)
 {
     sf::FloatRect hitboxHero = sprite.getGlobalBounds();
+    float offset = speed*time;
 
     for (int i = 0; i < ENEMYN; i++) {
-        sf::FloatRect enemyExtendedRect(enemyRect[i].left - CLSNOFFSET, enemyRect[i].top - CLSNOFFSET,
-                                        enemyRect[i].width + CLSNOFFSET*2, enemyRect[i].height + CLSNOFFSET*2);
+        sf::FloatRect enemyExtendedRect(enemyRect[i].left - offset, enemyRect[i].top - offset,
+                                        enemyRect[i].width + offset*2, enemyRect[i].height + offset*2);
         if (enemyExtendedRect.intersects(hitboxHero)) {
 
             float enemy_x = enemyRect[i].left;
             float enemy_y = enemyRect[i].top;
 
-            if (x - enemy_x - ENEMYW < CLSNOFFSET && x - enemy_x - ENEMYW > 0)
+            if (x - enemy_x - ENEMYW < offset && x - enemy_x - ENEMYW > 0)
                 left = false;
-
-            if (enemy_x - x - HEROW < CLSNOFFSET && enemy_x - x - HEROW > 0)
+            if (enemy_x - x - HEROW < offset && enemy_x - x - HEROW > 0)
                 right = false;
-
-            if (enemy_y - y - HEROH < CLSNOFFSET && enemy_y - y - HEROH > 0)
+            if (enemy_y - y - HEROH < offset && enemy_y - y - HEROH > 0)
                 down = false;
-
-            if (y - enemy_y - ENEMYH < CLSNOFFSET && y - enemy_y - ENEMYH > 0)
+            if (y - enemy_y - ENEMYH < offset && y - enemy_y - ENEMYH > 0)
                 up = false;
         }
     }

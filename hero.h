@@ -30,13 +30,13 @@ public:
 
     void load(sf::Texture* hero_texture);
     void setStartPosition(unsigned int tileno);
-    void move(std::vector<int>& level, float time, float& CurrentFrame);
-    void changeSpeed();
 
     float getX() {return x;}
     float getY() {return y;}
 
-    void checkForEnemies(std::vector<sf::FloatRect> &soldier);
+    void checkForEnemies(std::vector<sf::FloatRect> &soldier, float time);
+    void move(std::vector<int>& level, float time, float& CurrentFrame);
+    void changeSpeed();
 
     sf::Sprite& getSprite() {return sprite;}
     sf::View& getView() {return view;}

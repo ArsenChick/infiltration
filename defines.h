@@ -27,8 +27,6 @@
 
 #define ENEMYN 10
 
-#define CLSNOFFSET 8
-
 #define MAPSCALE 1
 
 #endif // MACROS_H

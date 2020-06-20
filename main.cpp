@@ -74,24 +74,30 @@ int main()
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
-        std::vector<sf::FloatRect> enemyRect;
-
+        // hero routine
+        std::vector<sf::FloatRect> enemyHitbox;
         for (int i = 0; i < ENEMYN; i++) {
             sf::FloatRect current = soldier[i].getSprite().getGlobalBounds();
-            enemyRect.push_back(current);
+            enemyHitbox.push_back(current);
         }
-
-        hero.checkForEnemies(enemyRect);
+        hero.checkForEnemies(enemyHitbox, time);
         hero.move(level, time, CurrentFrame);
 
+        // enemy routine
         for (int i = 0; i < ENEMYN; i++) {
-            if (soldier[i].hunt(hero) == 0)
+            int res = soldier[i].hunt(hero.getSprite().getGlobalBounds());
+            if (res == 0)
                 soldier[i].move(level, time);
+            if (res == 1)
+                hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
+            if (res == 2)
+                hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
         }
 
         window.draw(map);
         window.draw(hero.testbox);
         window.draw(hero.getSprite());
+
         for (int i = 0; i < ENEMYN; i++) {
             window.draw(soldier[i].testbox);
             window.draw(soldier[i].getSprite());

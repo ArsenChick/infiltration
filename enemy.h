@@ -34,9 +34,9 @@ public:
 
     void load(sf::Texture *enemy_texture);
     void setStartPosition(unsigned int tileno);
-    void move(std::vector<int>& level, float time);
 
-    int hunt(Hero &hero);
+    void move(std::vector<int>& level, float time);
+    int hunt(sf::FloatRect heroRect);
 
     sf::RectangleShape testbox;
 
