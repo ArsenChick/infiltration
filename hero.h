@@ -10,12 +10,16 @@ class Hero
 private:
     sf::Sprite sprite;
     sf::Texture *texture;
-    sf::FloatRect hitbox;
     sf::View view;
 
     float x; // x coordinate on the map
     float y; // y coordinate on the map
     float speed = DEFAULTSPEED;
+
+    bool up = true;
+    bool down = true;
+    bool right = true;
+    bool left = true;
 
     unsigned int pos = 0;
 
@@ -32,9 +36,10 @@ public:
     float getX() {return x;}
     float getY() {return y;}
 
+    void checkForEnemies(std::vector<sf::FloatRect> &soldier);
+
     sf::Sprite& getSprite() {return sprite;}
     sf::View& getView() {return view;}
-    sf::FloatRect& getRect() {return hitbox;}
 
     sf::RectangleShape testbox;
 };

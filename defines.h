@@ -25,6 +25,10 @@
 #define DEFAULTSPEED 0.25
 #define EPS 0.01
 
+#define ENEMYN 10
+
+#define CLSNOFFSET 8
+
 #define MAPSCALE 1
 
 #endif // MACROS_H

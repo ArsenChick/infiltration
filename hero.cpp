@@ -23,8 +23,6 @@ void Hero::setStartPosition(unsigned int tileno)
     y = row * TILESIZE + float(TILESIZE) / 2 - float(HEROH) / 2;
     sprite.setPosition(x, y);
 
-    hitbox = sf::FloatRect(x, y, HEROW, HEROH);
-
     testbox.setPosition(x, y);
     testbox.setSize(sf::Vector2f(HEROW, HEROH));
     testbox.setFillColor(sf::Color(0, 0, 255, 100));
@@ -39,6 +37,36 @@ void Hero::load(sf::Texture *hero_texture)
     sprite.setTextureRect(sf::IntRect(0, 0, HEROW, HEROH));
 }
 
+void Hero::checkForEnemies(std::vector<sf::FloatRect> &enemyRect)
+{
+    sf::FloatRect hitboxHero = sprite.getGlobalBounds();
+
+    for (int i = 0; i < ENEMYN; i++) {
+        sf::FloatRect enemyExtendedRect(enemyRect[i].left - CLSNOFFSET, enemyRect[i].top - CLSNOFFSET,
+                                        enemyRect[i].width + CLSNOFFSET*2, enemyRect[i].height + CLSNOFFSET*2);
+        if (enemyExtendedRect.intersects(hitboxHero)) {
+
+            float enemy_x = enemyRect[i].left;
+            float enemy_y = enemyRect[i].top;
+
+            if (x - enemy_x - ENEMYW < CLSNOFFSET && x - enemy_x - ENEMYW > 0)
+                left = false;
+
+            if (enemy_x - x - HEROW < CLSNOFFSET && enemy_x - x - HEROW > 0)
+                right = false;
+
+            if (enemy_y - y - HEROH < CLSNOFFSET && enemy_y - y - HEROH > 0)
+                down = false;
+
+            if (y - enemy_y - ENEMYH < CLSNOFFSET && y - enemy_y - ENEMYH > 0)
+                up = false;
+        }
+    }
+
+    enemyRect.clear();
+
+}
+
 void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
 {
     int row = pos / LWIDTH;
@@ -51,81 +79,75 @@ void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
 
     animate(time, CurrentFrame);
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && left) {
 
         if ((level[pos] & ROUTELEFT) != 0) {
             if (y >= upper_bound && y <= lower_bound) {
                 sprite.move(-speed*time, 0);
-                hitbox.left -= speed*time;
             }
             else if (x - speed*time >= left_bound) {
                 sprite.move(-speed*time, 0);
-                hitbox.left -= speed*time;
             }
         }
         else if (x - speed*time >= left_bound) {
             sprite.move(-speed*time, 0);
-            hitbox.left -= speed*time;
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && right) {
 
         if ((level[pos] & ROUTERIGHT) != 0) {
             if (y >= upper_bound && y <= lower_bound) {
                 sprite.move(speed*time, 0);
-                hitbox.left += speed*time;
             }
             else if (x + speed*time <= right_bound) {
                 sprite.move(speed*time, 0);
-                hitbox.left += speed*time;
             }
         }
         else if (x + speed*time <= right_bound) {
             sprite.move(speed*time, 0);
-            hitbox.left += speed*time;
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && up) {
 
         if ((level[pos] & ROUTEUP) != 0) {
             if (x >= left_bound && x <= right_bound) {
                 sprite.move(0, -speed*time);
-                hitbox.top -= speed*time;
             }
             else if (y - speed*time >= upper_bound) {
                 sprite.move(0, -speed*time);
-                hitbox.top -= speed*time;
             }
         }
         else if (y - speed*time >= upper_bound) {
             sprite.move(0, -speed*time);
-            hitbox.top -= speed*time;
         }
     }
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && down) {
 
         if ((level[pos] & ROUTEDOWN) != 0) {
             if (x >= left_bound && x <= right_bound) {
                 sprite.move(0, speed*time);
-                hitbox.top += speed*time;
             }
             else if (y + speed*time <= lower_bound) {
                 sprite.move(0, speed*time);
-                hitbox.top += speed*time;
             }
         }
         else if (y + speed*time <= lower_bound) {
             sprite.move(0, speed*time);
-            hitbox.top += speed*time;
         }
     }
 
     x = sprite.getPosition().x;
     y = sprite.getPosition().y;
 
+    up = true;
+    down = true;
+    left = true;
+    right = true;
+
+    sf::FloatRect hitbox = sprite.getGlobalBounds();
     testbox.setPosition(hitbox.left, hitbox.top);
 
     pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;

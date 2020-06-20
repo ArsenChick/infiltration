@@ -29,8 +29,8 @@ int main()
     if (!enemy_texture.loadFromFile("enemy.png"))
         exit(EXIT_FAILURE);
 
-    Enemy soldier[10];
-    for (int i = 0; i < 10; i++)
+    Enemy soldier[ENEMYN];
+    for (int i = 0; i < ENEMYN; i++)
         soldier[i].load(&enemy_texture);
 
     // Timer
@@ -74,8 +74,17 @@ int main()
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
+        std::vector<sf::FloatRect> enemyRect;
+
+        for (int i = 0; i < ENEMYN; i++) {
+            sf::FloatRect current = soldier[i].getSprite().getGlobalBounds();
+            enemyRect.push_back(current);
+        }
+
+        hero.checkForEnemies(enemyRect);
         hero.move(level, time, CurrentFrame);
-        for (int i = 0; i < 10; i++) {
+
+        for (int i = 0; i < ENEMYN; i++) {
             if (soldier[i].hunt(hero) == 0)
                 soldier[i].move(level, time);
         }
@@ -83,7 +92,7 @@ int main()
         window.draw(map);
         window.draw(hero.testbox);
         window.draw(hero.getSprite());
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < ENEMYN; i++) {
             window.draw(soldier[i].testbox);
             window.draw(soldier[i].getSprite());
         }
@@ -105,7 +114,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
     int row = hero_pos / LWIDTH;
     int col = hero_pos % LWIDTH;
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < ENEMYN; i++) {
         int enemy_col, enemy_row;
 
         while(true) {
