@@ -22,7 +22,7 @@
 #define ENEMYW 55
 
 #define CROUCHSPEED 0.12
-#define DEFAULTSPEED 0.25
+#define DEFAULTSPEED 0.18
 #define EPS 0.01
 
 #define LOSOFFSET 5
