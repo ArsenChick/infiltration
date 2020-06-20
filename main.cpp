@@ -56,7 +56,7 @@ int main()
         clock.restart();
         time = time / 800;
 
-        // hero routine
+        // getting enemy's hitboxes for later calculations
         std::vector<sf::FloatRect> enemyHitbox;
         for (int i = 0; i < ENEMYN; i++) {
             sf::FloatRect currentRect = soldier[i].getSprite().getGlobalBounds();
@@ -74,8 +74,10 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
+            // key - LCtrl - crouch mode
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LControl))
                 hero.changeSpeed();
+            // key - ESC - leaving the game
             if (event.type == sf::Event::Closed)
                 window.close();
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LShift))
@@ -88,6 +90,7 @@ int main()
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
+        // checking collisions and moving the hero
         hero.checkForEnemies(enemyHitbox, time);
         hero.move(level, time, CurrentFrame);
 
@@ -95,6 +98,9 @@ int main()
         for (int i = 0; i < ENEMYN; i++) {
             if (soldier[i].status == ALIVE) {
                 int res = soldier[i].hunt(hero.getSprite().getGlobalBounds());
+                /* if the hero is not in an enemy's line of sight
+                 * then move the enemy, else - don't move
+                 */
                 if (res == 0) {
                     soldier[i].move(level, time);
                     if (hero.kill(enemyHitbox[i]))
@@ -107,16 +113,19 @@ int main()
             }
         }
 
+        // drawing objects
         window.draw(map);
         window.draw(hero.testbox);
         window.draw(hero.getSprite());
 
+        // drawing enemies depending on their status
         for (int i = 0; i < ENEMYN; i++) {
             if (soldier[i].status == ALIVE) {
                 window.draw(soldier[i].testbox);
                 window.draw(soldier[i].getSprite());
             }
         }
+        // displaying collected objects
         window.display();
     }
 
