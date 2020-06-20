@@ -12,29 +12,36 @@ class Enemy
 private:
     sf::Sprite sprite;
     sf::Texture *texture;
-    sf::Clock clock_e;
+    sf::FloatRect dmg_area;
 
     float x;
     float y;
-    float speed;
+    float speed = 0.15;
 
-    int pos;
-    unsigned int look = LEFT;
+    unsigned int pos = 0;
+    unsigned int look = UP;
 
-    float time_w = -1;
+    sf::Clock clock;
+    float time_wait = -1;
+
     std::mt19937 gen;
+
+    void adjustLoS(std::vector<int>& level);
 
 public:
     Enemy();
 
+    unsigned int status = ALIVE;
+
     void load(sf::Texture *enemy_texture);
-    void setStartPosition(int tileno);
+    void setStartPosition(unsigned int tileno);
+
     void move(std::vector<int>& level, float time);
+    int hunt(sf::FloatRect heroRect);
 
-    float getX() {return x;}
-    float getY() {return y;}
+    sf::RectangleShape testbox;
 
-    sf::Sprite getSprite() {return sprite;}
+    sf::Sprite& getSprite() {return sprite;}
 };
 
 

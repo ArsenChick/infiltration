@@ -29,8 +29,8 @@ int main()
     if (!enemy_texture.loadFromFile("enemy.png"))
         exit(EXIT_FAILURE);
 
-    Enemy soldier[5];
-    for (int i = 0; i < 5; i++)
+    Enemy soldier[ENEMYN];
+    for (int i = 0; i < ENEMYN; i++)
         soldier[i].load(&enemy_texture);
 
     // Timer
@@ -46,7 +46,7 @@ int main()
     spawnCharacters(hero, soldier);
 
     Map map;
-    if (!map.load("map.png", sf::Vector2u(128, 128), level, LWIDTH, LHEIGHT))
+    if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
 
     // Running the main loop
@@ -56,28 +56,76 @@ int main()
         clock.restart();
         time = time / 800;
 
+        // getting enemy's hitboxes for later calculations
+        std::vector<sf::FloatRect> enemyHitbox;
+        for (int i = 0; i < ENEMYN; i++) {
+            sf::FloatRect currentRect = soldier[i].getSprite().getGlobalBounds();
+            if (soldier[i].status == DEAD) {
+                currentRect.left = 0;
+                currentRect.top = 0;
+                currentRect.width = 0;
+                currentRect.height = 0;
+            }
+            enemyHitbox.push_back(currentRect);
+        }
+
+
         // handle events
         sf::Event event;
         while (window.pollEvent(event))
         {
+            // key - LCtrl - crouch mode
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LControl))
+                hero.changeSpeed();
+            // key - ESC - leaving the game
             if (event.type == sf::Event::Closed)
                 window.close();
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LShift))
+                hero.testbox.setFillColor(sf::Color(0, 0, 255, 100));
         }
 
+        // setting game camera
         window.setView(hero.getView());
       
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
+        // checking collisions and moving the hero
+        hero.checkForEnemies(enemyHitbox, time);
         hero.move(level, time, CurrentFrame);
-        for (int i = 0; i < 5; i++)
-           soldier[i].move(level, time);
 
+        // enemy routine
+        for (int i = 0; i < ENEMYN; i++) {
+            if (soldier[i].status == ALIVE) {
+                int res = soldier[i].hunt(hero.getSprite().getGlobalBounds());
+                /* if the hero is not in an enemy's line of sight
+                 * then move the enemy, else - don't move
+                 */
+                if (res == 0) {
+                    soldier[i].move(level, time);
+                    if (hero.kill(enemyHitbox[i]))
+                        soldier[i].status = DEAD;
+                }
+                if (res == 1)
+                    hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
+                if (res == 2)
+                    hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
+            }
+        }
+
+        // drawing objects
         window.draw(map);
+        window.draw(hero.testbox);
         window.draw(hero.getSprite());
-        for (int i = 0; i < 5; i++)
-            window.draw(soldier[i].getSprite());
-      
+
+        // drawing enemies depending on their status
+        for (int i = 0; i < ENEMYN; i++) {
+            if (soldier[i].status == ALIVE) {
+                window.draw(soldier[i].testbox);
+                window.draw(soldier[i].getSprite());
+            }
+        }
+        // displaying collected objects
         window.display();
     }
 
@@ -96,7 +144,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
     int row = hero_pos / LWIDTH;
     int col = hero_pos % LWIDTH;
 
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < ENEMYN; i++) {
         int enemy_col, enemy_row;
 
         while(true) {
@@ -107,7 +155,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
                 break;
         }
 
-        int enemy_pos = enemy_row * LWIDTH + enemy_col;
+        unsigned int enemy_pos = enemy_row * LWIDTH + enemy_col;
         soldier[i].setStartPosition(enemy_pos);
     }
 }
