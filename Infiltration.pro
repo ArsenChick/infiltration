@@ -6,6 +6,7 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        bar.cpp \
         enemy.cpp \
         hero.cpp \
         main.cpp \
@@ -19,6 +20,7 @@ INCLUDEPATH += $$PWD/external/SFML-2.5.1/include
 DEPENDPATH += $$PWD/external/SFML-2.5.1/include
 
 HEADERS += \
+    bar.h \
     defines.h \
     enemy.h \
     hero.h \

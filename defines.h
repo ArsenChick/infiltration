@@ -22,4 +22,12 @@
 #define ENEMYH 48
 #define ENEMYW 55
 
+<<<<<<< Updated upstream
+=======
+#define MAPSCALE 1
+
+#define ALIVE 1
+#define DEAD 0
+
+>>>>>>> Stashed changes
 #endif // MACROS_H

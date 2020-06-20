@@ -25,6 +25,8 @@ private:
 public:
     Enemy();
 
+    unsigned int status = ALIVE;
+
     void load(sf::Texture *enemy_texture);
     void setStartPosition(int tileno);
 
