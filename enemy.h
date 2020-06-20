@@ -5,7 +5,6 @@
 #include <chrono>
 #include <random>
 #include "defines.h"
-#include "hero.h"
 
 class Enemy
 {
@@ -32,6 +31,8 @@ private:
 public:
     Enemy();
 
+    unsigned int status = ALIVE;
+
     void load(sf::Texture *enemy_texture);
     void setStartPosition(unsigned int tileno);
 
@@ -39,9 +40,6 @@ public:
     int hunt(sf::FloatRect heroRect);
 
     sf::RectangleShape testbox;
-
-    float getX() {return x;}
-    float getY() {return y;}
 
     sf::Sprite& getSprite() {return sprite;}
 };

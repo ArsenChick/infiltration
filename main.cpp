@@ -56,42 +56,55 @@ int main()
         clock.restart();
         time = time / 800;
 
+        // hero routine
+        std::vector<sf::FloatRect> enemyHitbox;
+        for (int i = 0; i < ENEMYN; i++) {
+            sf::FloatRect currentRect = soldier[i].getSprite().getGlobalBounds();
+            if (soldier[i].status == DEAD) {
+                currentRect.left = 0;
+                currentRect.top = 0;
+                currentRect.width = 0;
+                currentRect.height = 0;
+            }
+            enemyHitbox.push_back(currentRect);
+        }
+
+
         // handle events
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LControl)) {
+            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LControl))
                 hero.changeSpeed();
-            }
             if (event.type == sf::Event::Closed)
                 window.close();
             if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LShift))
                 hero.testbox.setFillColor(sf::Color(0, 0, 255, 100));
         }
 
+        // setting game camera
         window.setView(hero.getView());
       
         // draw the map
         window.clear(sf::Color(180, 180, 180));
 
-        // hero routine
-        std::vector<sf::FloatRect> enemyHitbox;
-        for (int i = 0; i < ENEMYN; i++) {
-            sf::FloatRect current = soldier[i].getSprite().getGlobalBounds();
-            enemyHitbox.push_back(current);
-        }
         hero.checkForEnemies(enemyHitbox, time);
         hero.move(level, time, CurrentFrame);
 
         // enemy routine
         for (int i = 0; i < ENEMYN; i++) {
-            int res = soldier[i].hunt(hero.getSprite().getGlobalBounds());
-            if (res == 0)
-                soldier[i].move(level, time);
-            if (res == 1)
-                hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
-            if (res == 2)
-                hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
+            if (soldier[i].status == ALIVE) {
+                int res = soldier[i].hunt(hero.getSprite().getGlobalBounds());
+                if (res == 0) {
+                    soldier[i].move(level, time);
+                    if (hero.kill(enemyHitbox[i]))
+                        soldier[i].status = DEAD;
+                }
+                if (res == 1)
+                    hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
+                if (res == 2)
+                    hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
+            }
         }
 
         window.draw(map);
@@ -99,8 +112,10 @@ int main()
         window.draw(hero.getSprite());
 
         for (int i = 0; i < ENEMYN; i++) {
-            window.draw(soldier[i].testbox);
-            window.draw(soldier[i].getSprite());
+            if (soldier[i].status == ALIVE) {
+                window.draw(soldier[i].testbox);
+                window.draw(soldier[i].getSprite());
+            }
         }
         window.display();
     }

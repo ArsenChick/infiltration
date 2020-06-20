@@ -21,9 +21,15 @@
 #define ENEMYH 48
 #define ENEMYW 55
 
-#define CROUCHSPEED 0.18
+
+#define CROUCHSPEED 0.12
 #define DEFAULTSPEED 0.25
 #define EPS 0.01
+
+#define LOSOFFSET 5
+
+#define ALIVE 1
+#define DEAD 0
 
 #define ENEMYN 10
 
