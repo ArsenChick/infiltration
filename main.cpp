@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "hero.h"
 #include "map.h"
+#include "bar.h"
 
 void spawnCharacters(Hero &hero, Enemy* soldier);
 
@@ -33,9 +34,6 @@ int main()
     for (int i = 0; i < ENEMYN; i++)
         soldier[i].load(&enemy_texture);
 
-    // Timer
-    sf::Clock clock;
-
     // Creating level
     std::vector<int> level(LHEIGHT*LWIDTH, 0);
 
@@ -48,6 +46,11 @@ int main()
     Map map;
     if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
+
+    // Toolsbar and Timer for moving
+    Toolsbar toolsbar;
+    int count_alive;
+    sf::Clock clock;
 
     // Running the main loop
     while (window.isOpen())
@@ -119,12 +122,18 @@ int main()
         window.draw(hero.getSprite());
 
         // drawing enemies depending on their status
+        count_alive = 0;
         for (int i = 0; i < ENEMYN; i++) {
             if (soldier[i].status == ALIVE) {
+                count_alive ++;
                 window.draw(soldier[i].testbox);
                 window.draw(soldier[i].getSprite());
             }
         }
+        
+        // drawing HUD
+        toolsbar.draw(window, count_alive);
+
         // displaying collected objects
         window.display();
     }

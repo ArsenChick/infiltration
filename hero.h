@@ -53,7 +53,6 @@ public:
      * choosing starting tile number
      */
     void setStartPosition(unsigned int tileno);
-
     /* @param - vector of enemies's hitboxes
      * @param - current time
      * the function updates available ways for hero's moving

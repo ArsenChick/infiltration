@@ -157,6 +157,7 @@ void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
                 dmg_area.top += speed*time;
             }
         }
+
         else if (y + speed*time <= lower_bound) {
             sprite.move(0, speed*time);
             dmg_area.top += speed*time;
@@ -254,7 +255,8 @@ int Hero::kill(sf::FloatRect enemyHitbox)
     /* we can kill only if hero's line of sight intersects enemy's hitbox
     *  and also the button for eliminating (Tab originally) is pressed
     */
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) && enemyHitbox.intersects(dmg_area))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) &&
+        enemyHitbox.intersects(dmg_area))
             return 1;
         else
             return 0;
