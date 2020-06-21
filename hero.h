@@ -74,7 +74,6 @@ public:
     // getting hero's view
     sf::View& getView() {return view;}
 
-    sf::RectangleShape testbox;
 };
 
 

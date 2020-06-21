@@ -116,7 +116,7 @@ void Enemy::move(std::vector<int>& level, float time)
 
     adjustLoS(level);
 
-    testbox.setPosition(dmg_area.left, dmg_area.top);
+    testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
 
     pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;
 
@@ -196,6 +196,6 @@ void Enemy::adjustLoS(std::vector<int>& level)
         break;
     }
     }
-    testbox.setPosition(dmg_area.left, dmg_area.top);
-    testbox.setSize(sf::Vector2f(dmg_area.width, dmg_area.height));
+    testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
+    testbox.setSize(sf::Vector2f(dmg_area.width+2*LOSOFFSET, dmg_area.height+2*LOSOFFSET));
 }

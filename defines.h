@@ -31,6 +31,7 @@
 #define DEAD 0
 
 #define ENEMYN 10
+#define TIMEFORPLAY 180
 #define MAPSCALE 1
 
 #endif // MACROS_H

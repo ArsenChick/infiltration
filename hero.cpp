@@ -28,10 +28,6 @@ void Hero::setStartPosition(unsigned int tileno)
     // damage area of your hero
     dmg_area = sf::FloatRect(x, y, HEROW, HEROH);
 
-    testbox.setPosition(x, y);
-    testbox.setSize(sf::Vector2f(HEROW, HEROH));
-    testbox.setFillColor(sf::Color(0, 0, 255, 100));
-
     // camera's center == hero's center
     view.setCenter(x + (float)HEROW/2, y + (float)HEROH/2);
 }
@@ -246,8 +242,6 @@ void Hero::adjustLoS()
         break;
     }
     }
-    testbox.setPosition(dmg_area.left, dmg_area.top);
-    testbox.setSize(sf::Vector2f(dmg_area.width, dmg_area.height));
 }
 
 int Hero::kill(sf::FloatRect enemyHitbox)

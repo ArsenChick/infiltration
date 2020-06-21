@@ -47,9 +47,18 @@ int main()
     if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
 
+    // Load font
+    sf::Font font;
+    if (!font.loadFromFile("19413.ttf"))
+    {
+        exit(EXIT_FAILURE);
+    }
+
     // Toolsbar and Timer for moving
-    Toolsbar toolsbar;
+    Toolsbar toolsbar(font);
     int count_alive;
+    int timeOfGame = 0;
+    int endOfGame = -1;
     sf::Clock clock;
 
     // Running the main loop
@@ -83,8 +92,6 @@ int main()
             // key - ESC - leaving the game
             if (event.type == sf::Event::Closed)
                 window.close();
-            if ((event.type == sf::Event::KeyPressed) && (event.key.code == sf::Keyboard::LShift))
-                hero.testbox.setFillColor(sf::Color(0, 0, 255, 100));
         }
 
         // setting game camera
@@ -109,16 +116,14 @@ int main()
                     if (hero.kill(enemyHitbox[i]))
                         soldier[i].status = DEAD;
                 }
-                if (res == 1)
-                    hero.testbox.setFillColor(sf::Color(0, 255, 0, 100));
                 if (res == 2)
-                    hero.testbox.setFillColor(sf::Color(255, 0, 0, 100));
+                    endOfGame = 0;
             }
         }
 
         // drawing objects
         window.draw(map);
-        window.draw(hero.testbox);
+        //window.draw(hero.testbox);
         window.draw(hero.getSprite());
 
         // drawing enemies depending on their status
@@ -130,12 +135,70 @@ int main()
                 window.draw(soldier[i].getSprite());
             }
         }
-        
+
         // drawing HUD
-        toolsbar.draw(window, count_alive);
+        timeOfGame = toolsbar.draw(window, count_alive);
 
         // displaying collected objects
         window.display();
+
+        // Time's up
+        if (timeOfGame == 0) {
+            endOfGame = 2;
+            window.close();
+        }
+
+
+        // Situation of lose
+        if (endOfGame == 0) {
+            window.close();
+        }
+
+        // Situation of win
+        if (count_alive == 0) {
+            endOfGame = 1;
+            window.close();
+        }
+    }
+
+    if (endOfGame != -1) {
+
+        // Creating object for text and getting font
+        sf::Text text;
+
+        // Creating window for end of game
+        sf::RenderWindow windowOfEnd(sf::VideoMode(400, 200), "", sf::Style::Titlebar | sf::Style::Close);
+        windowOfEnd.setFramerateLimit(60);
+        windowOfEnd.requestFocus();
+        while (windowOfEnd.isOpen()) {
+
+            sf::Event events;
+            while (windowOfEnd.pollEvent(events))
+            {
+                // key - ESC - leaving the game
+                if (events.type == sf::Event::Closed)
+                    windowOfEnd.close();
+            }
+
+            windowOfEnd.clear(sf::Color::White);
+
+            // Establish parameters
+            if (endOfGame == 0)
+                text.setString("YOU LOST");
+            if (endOfGame == 1)
+                text.setString("YOU WON");
+            if (endOfGame == 2)
+                text.setString("TIME'S UP");
+
+            text.setFont(font);
+            text.setStyle(sf::Text::Bold);
+            text.setFillColor(sf::Color::Black);
+            text.setCharacterSize(40);
+            text.setPosition(windowOfEnd.getView().getCenter().x - text.getGlobalBounds().width/2,
+                             windowOfEnd.getView().getCenter().y - text.getGlobalBounds().height/2);
+            windowOfEnd.draw(text);
+            windowOfEnd.display();
+        }
     }
 
     return 0;
