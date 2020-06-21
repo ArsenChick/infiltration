@@ -4,7 +4,7 @@
 Toolsbar::Toolsbar()
 {
     // Load font
-    if (!font.loadFromFile("19413.ttf"))
+    if (!font.loadFromFile("font.ttf"))
     {
         exit(EXIT_FAILURE);
     }
