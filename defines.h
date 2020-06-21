@@ -6,8 +6,8 @@
 #define ROUTEDOWN 2
 #define ROUTERIGHT 1
 
-#define LHEIGHT 15
-#define LWIDTH 15
+#define LHEIGHT 20
+#define LWIDTH 20
 #define TILESIZE 160
 #define WALLSIZE 32
 
@@ -21,7 +21,7 @@
 #define ENEMYH 48
 #define ENEMYW 55
 
-#define CROUCHSPEED 0.12
+#define CROUCHSPEED 0.25
 #define DEFAULTSPEED 0.18
 #define EPS 0.01
 
@@ -30,7 +30,7 @@
 #define ALIVE 1
 #define DEAD 0
 
-#define ENEMYN 10
+#define ENEMYN 25
 #define TIMEFORPLAY 180
 #define MAPSCALE 1
 

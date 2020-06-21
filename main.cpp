@@ -25,7 +25,7 @@ int main()
     Hero hero;
     hero.load(&hero_texture);
 
-    // Loading enemy
+    // loading enemy
     sf::Texture enemy_texture;
     if (!enemy_texture.loadFromFile("enemy.png"))
         exit(EXIT_FAILURE);
@@ -34,7 +34,7 @@ int main()
     for (int i = 0; i < ENEMYN; i++)
         soldier[i].load(&enemy_texture);
 
-    // Creating level
+    // creating level
     std::vector<int> level(LHEIGHT*LWIDTH, 0);
 
     MapGenerator *mg = new MapGenerator;
@@ -47,14 +47,14 @@ int main()
     if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
 
-    // Load font
+    // loading font
     sf::Font font;
-    if (!font.loadFromFile("19413.ttf"))
+    if (!font.loadFromFile("font.ttf"))
     {
         exit(EXIT_FAILURE);
     }
 
-    // Toolsbar and Timer for moving
+    // toolbar and timer for moving
     Toolsbar toolsbar(font);
     int count_alive;
     int timeOfGame = 0;
