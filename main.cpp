@@ -98,7 +98,7 @@ int main()
         window.setView(hero.getView());
       
         // draw the map
-        window.clear(sf::Color(180, 180, 180));
+        window.clear(sf::Color(50, 50, 38));
 
         // checking collisions and moving the hero
         hero.checkForEnemies(enemyHitbox, time);

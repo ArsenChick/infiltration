@@ -42,7 +42,7 @@ int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
 
     // Establish parameters
     string << count_alive;
-    enemy_number.setString("Alive enemy: " + string.str());
+    enemy_number.setString("Enemies left: " + string.str());
     enemy_number.setFont(font);
     enemy_number.setStyle(sf::Text::Bold);
     enemy_number.setFillColor(sf::Color::Black);
