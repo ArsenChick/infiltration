@@ -12,8 +12,8 @@ private:
     sf::Text text;
     sf::Text enemy_number;
 public:
-    Toolsbar();
-    void draw (sf::RenderWindow &window, unsigned int count_alive);
+    Toolsbar(sf::Font fonts);
+    int draw (sf::RenderWindow &window, unsigned int count_alive);
 };
 
 #endif // BAR_H

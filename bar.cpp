@@ -1,33 +1,30 @@
 #include "bar.h"
 #include <sstream>
 
-Toolsbar::Toolsbar()
+Toolsbar::Toolsbar(sf::Font fonts)
 {
-    // Load font
-    if (!font.loadFromFile("font.ttf"))
-    {
-        exit(EXIT_FAILURE);
-    }
+    font = fonts;
 }
 
-void Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
+int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
 
     // Getting time
-    int timeinsec = static_cast<int>(time.getElapsedTime().asSeconds());
+    int timeinsec = TIMEFORPLAY - static_cast<int>(time.getElapsedTime().asSeconds());
 
     // Transformation of time to minute&seconds
     int minute = 0;
+    int sec = 0;
     if (timeinsec >= 60) {
         minute = timeinsec / 60;
-        timeinsec = timeinsec - minute * 60;
-    }
+        sec = timeinsec - minute * 60;
+    } else sec = timeinsec;
 
     // Transformation to string
     std::ostringstream string;
 
-    if (timeinsec < 10) {
-        string << minute << ":0" << timeinsec;
-    } else string << minute << ":" << timeinsec;
+    if (sec < 10) {
+        string << minute << ":0" << sec;
+    } else string << minute << ":" << sec;
 
     // Establish parameters
     text.setString("Time: " + string.str());
@@ -58,4 +55,6 @@ void Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
     // Draw
     window.draw(text);
     window.draw(enemy_number);
+
+    return timeinsec;
 }
