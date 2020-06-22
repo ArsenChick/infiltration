@@ -161,7 +161,7 @@ int main()
         sf::Text text;
 
         // creating window for the endscreen
-        sf::RenderWindow windowOfEnd(sf::VideoMode(400, 200), "", sf::Style::Titlebar | sf::Style::Close);
+        sf::RenderWindow windowOfEnd(sf::VideoMode(400, 200), "Game over", sf::Style::Titlebar | sf::Style::Close);
         windowOfEnd.setFramerateLimit(60);
         windowOfEnd.requestFocus();
         while (windowOfEnd.isOpen()) {
