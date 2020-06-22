@@ -32,8 +32,6 @@ private:
     void adjustLoS(std::vector<int>& level);
 
 public:
-    Enemy();
-
     unsigned int status = ALIVE;
 
     void load(sf::Texture *enemy_texture);

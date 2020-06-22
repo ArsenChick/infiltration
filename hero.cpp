@@ -7,6 +7,7 @@ Hero::Hero()
 
 void Hero::changeSpeed()
 {
+    // switching between crouch and run
     if (fabs(speed - DEFAULTSPEED) <= EPS)
         speed = CROUCHSPEED;
     else

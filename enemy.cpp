@@ -1,23 +1,22 @@
 #include "enemy.h"
 #include <algorithm>
 
-Enemy::Enemy()
-{
-
-}
-
 void Enemy::setStartPosition(unsigned int tileno)
 {
     pos = tileno;
     int row = tileno / LWIDTH;
     int col = tileno % LWIDTH;
 
+    // calculating x and y coordinates
     x = col * TILESIZE + (float)TILESIZE / 2 - (float)ENEMYW / 2;
     y = row * TILESIZE + (float)TILESIZE / 2 - (float)ENEMYH / 2;
+    // setting up the sprite position
     sprite.setPosition(x, y);
 
+    // setting up enemy's damage area
     dmg_area = sf::FloatRect(x, y, ENEMYW, ENEMYH);
 
+    // setting up graphical damage area
     testbox.setPosition(x, y);
     testbox.setSize(sf::Vector2f(ENEMYW, ENEMYH));
     testbox.setFillColor(sf::Color(180, 0, 0, 100));
@@ -28,6 +27,7 @@ void Enemy::setStartPosition(unsigned int tileno)
 
 void Enemy::load(sf::Texture *enemy_texture)
 {
+    // loading texture
     texture = enemy_texture;
     sprite.setTexture(*texture);
     sprite.setTextureRect(sf::IntRect(0, 0, ENEMYW, ENEMYH));
@@ -35,6 +35,7 @@ void Enemy::load(sf::Texture *enemy_texture)
 
 void Enemy::move(std::vector<int>& level, float time)
 {
+    // change look if faced an obstacle
     if (time_wait != -1) {
         if (clock.getElapsedTime().asSeconds() - time_wait >= 0.2) {
             clock.restart();
@@ -56,8 +57,10 @@ void Enemy::move(std::vector<int>& level, float time)
     float right_bound = (col+1) * TILESIZE - WALLSIZE - ENEMYW - 10;
     float lower_bound = (row+1) * TILESIZE - WALLSIZE - ENEMYH - 10;
 
+    // calling animate to make enemy look properly
     animate(time);
 
+    // moving the enemy according to his current look
     switch (look) {
     case LEFT: {
         if ((level[pos] & ROUTELEFT) != 0) {
@@ -113,15 +116,20 @@ void Enemy::move(std::vector<int>& level, float time)
     }
     }
 
+    // updating x and y
     x = sprite.getPosition().x;
     y = sprite.getPosition().y;
 
+    // updating line of sight
     adjustLoS(level);
 
+    // updating graphical damage area
     testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
 
+    // updating pos in the tiles
     pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;
 
+    // random chance of changing direction
     if ((x >= left_bound && x <= right_bound) &&
         (y >= upper_bound && y <= lower_bound)) {
         int chance = gen() % 1000;
@@ -129,6 +137,7 @@ void Enemy::move(std::vector<int>& level, float time)
             time_wait = clock.getElapsedTime().asSeconds();
     }
 
+    // if hasn't moved - change direction
     if ((last_x == x) && (last_y == y)) {
         time_wait = clock.getElapsedTime().asSeconds();
     }
@@ -136,13 +145,16 @@ void Enemy::move(std::vector<int>& level, float time)
 
 int Enemy::hunt(sf::FloatRect heroRect)
 {
+    // analysing current damage area state - how much seconds does the hero stay in
     if (dmg_area.intersects(heroRect)) {
         if (time_wait != -1) {
             if (clock.getElapsedTime().asSeconds() - time_wait >= 0.5) {
+                // enemy catched the hero
                 return 2;
             }
         }
         else {
+            // start death timer
             time_wait = clock.getElapsedTime().asSeconds();
         }
         return 1;
