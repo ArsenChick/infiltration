@@ -53,13 +53,11 @@ public:
 
     // loading a texture
     void load(sf::Texture *enemy_texture);
-
     // choosing starting tile number
     void setStartPosition(unsigned int tileno);
 
     // the function moves the enemy
     void move(std::vector<int>& level, float time);
-
     // the function checks if the enemy has catched a hero
     int hunt(sf::FloatRect heroRect);
 
