@@ -59,7 +59,7 @@ int main()
     int endOfGame = -1;
     sf::Clock clock;
 
-    // Running the main loop
+    // running the main loop
     while (window.isOpen())
     {
         float time = clock.getElapsedTime().asMicroseconds();
@@ -80,7 +80,7 @@ int main()
         }
 
 
-        // handle events
+        // handling events
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -120,8 +120,7 @@ int main()
         }
 
         // drawing objects
-        window.draw(map);
-        //window.draw(hero.testbox);
+        window.draw(map);;
         window.draw(hero.getSprite());
 
         // drawing enemies depending on their status
@@ -140,19 +139,16 @@ int main()
         // displaying collected objects
         window.display();
 
-        // Time's up
+        // time's up
         if (timeOfGame == 0) {
             endOfGame = 2;
             window.close();
         }
-
-
-        // Situation of lose
+        // situation of lose
         if (endOfGame == 0) {
             window.close();
         }
-
-        // Situation of win
+        // situation of win
         if (count_alive == 0) {
             endOfGame = 1;
             window.close();
@@ -161,10 +157,10 @@ int main()
 
     if (endOfGame != -1) {
 
-        // Creating object for text and getting font
+        // creating object for the text and getting font
         sf::Text text;
 
-        // Creating window for end of game
+        // creating window for the endscreen
         sf::RenderWindow windowOfEnd(sf::VideoMode(400, 200), "", sf::Style::Titlebar | sf::Style::Close);
         windowOfEnd.setFramerateLimit(60);
         windowOfEnd.requestFocus();
@@ -180,7 +176,7 @@ int main()
 
             windowOfEnd.clear(sf::Color::White);
 
-            // Establish parameters
+            // establishing string
             if (endOfGame == 0)
                 text.setString("YOU LOST");
             if (endOfGame == 1)
