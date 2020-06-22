@@ -249,7 +249,7 @@ int Hero::kill(sf::FloatRect enemyHitbox)
     /* we can kill only if hero's line of sight intersects enemy's hitbox
     *  and also the button for eliminating (Tab originally) is pressed
     */
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Tab) &&
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::X) &&
         enemyHitbox.intersects(dmg_area))
             return 1;
         else

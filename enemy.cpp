@@ -138,7 +138,7 @@ int Enemy::hunt(sf::FloatRect heroRect)
 {
     if (dmg_area.intersects(heroRect)) {
         if (time_wait != -1) {
-            if (clock.getElapsedTime().asSeconds() - time_wait >= 1) {
+            if (clock.getElapsedTime().asSeconds() - time_wait >= 0.5) {
                 return 2;
             }
         }
