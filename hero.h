@@ -5,8 +5,6 @@
 #include <cmath>
 #include "defines.h"
 
-#include <iostream>
-
 class Hero
 {
 private:
@@ -23,6 +21,7 @@ private:
     // y coordinate on the map
     float y;
 
+    // current frame used for animation
     float CurrentFrame = 0;
 
     // hero's speed
@@ -36,6 +35,7 @@ private:
 
     // position in the tiles
     unsigned int pos = 0;
+
     // hero's look (used for line of sight)
     unsigned int look = UP;
 
@@ -47,32 +47,29 @@ private:
 public:
     Hero(); // constructor
 
-    /* @param - custom texture
-     * loading a texture
-     */
+    // loading a texture
     void load(sf::Texture* hero_texture);
-    /* @param - tile number
-     * choosing starting tile number
-     */
+
+    // choosing starting tile number
     void setStartPosition(unsigned int tileno);
-    /* @param - vector of enemies's hitboxes
-     * @param - current time
-     * the function updates available ways for hero's moving
-     */
+
+    // the function updates available ways for hero's moving
     void checkForEnemies(std::vector<sf::FloatRect> &soldier, float time);
+
     // the function moves the hero
     void move(std::vector<int>& level, float time);
+
     // the function changes the speed between crouch mode and default
     void changeSpeed();
 
-    /* @param - enemy's hitbox
-     * the function outputs 1 if there's a elimination
+    /*  the function outputs 1 if there's a elimination
      * the function outputs 0 if there's no elimination
      */
     int kill(sf::FloatRect enemyHitbox);
 
     // getting hero's sprite
     sf::Sprite& getSprite() {return sprite;}
+
     // getting hero's view
     sf::View& getView() {return view;}
 
