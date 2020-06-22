@@ -20,7 +20,7 @@ void Enemy::setStartPosition(unsigned int tileno)
 
     testbox.setPosition(x, y);
     testbox.setSize(sf::Vector2f(ENEMYW, ENEMYH));
-    testbox.setFillColor(sf::Color(255, 0, 0, 100));
+    testbox.setFillColor(sf::Color(180, 0, 0, 100));
 
     gen.seed(rand() % (int)x + y);
     clock.restart();
@@ -55,6 +55,8 @@ void Enemy::move(std::vector<int>& level, float time)
     float upper_bound = row * TILESIZE + WALLSIZE + 10;
     float right_bound = (col+1) * TILESIZE - WALLSIZE - ENEMYW - 10;
     float lower_bound = (row+1) * TILESIZE - WALLSIZE - ENEMYH - 10;
+
+    animate(time);
 
     switch (look) {
     case LEFT: {
@@ -198,4 +200,29 @@ void Enemy::adjustLoS(std::vector<int>& level)
     }
     testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
     testbox.setSize(sf::Vector2f(dmg_area.width+2*LOSOFFSET, dmg_area.height+2*LOSOFFSET));
+}
+
+void Enemy::animate(float time)
+{
+    // animating hero depending on a pressed button
+    if (look == LEFT) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*ENEMYW, ENEMYH, ENEMYW, ENEMYH));
+    }
+    else if (look == RIGHT) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*ENEMYW, 2*ENEMYH, ENEMYW, ENEMYH));
+    }
+    else if (look == UP) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*ENEMYW, 3*ENEMYH, ENEMYW, ENEMYH));
+    }
+    else if (look == DOWN) {
+        CurrentFrame += 0.005*time;
+        if (CurrentFrame > 4) CurrentFrame -= 4;
+        sprite.setTextureRect(sf::IntRect(int(CurrentFrame)*ENEMYW, 0, ENEMYW, ENEMYH));
+    }
 }

@@ -23,6 +23,8 @@ private:
     // y coordinate on the map
     float y;
 
+    float CurrentFrame = 0;
+
     // hero's speed
     float speed = DEFAULTSPEED;
 
@@ -38,7 +40,7 @@ private:
     unsigned int look = UP;
 
     // default moving animation
-    void animate(float time, float& CurrentFrame);
+    void animate(float time);
     // updating line of sight
     void adjustLoS();
 
@@ -59,7 +61,7 @@ public:
      */
     void checkForEnemies(std::vector<sf::FloatRect> &soldier, float time);
     // the function moves the hero
-    void move(std::vector<int>& level, float time, float& CurrentFrame);
+    void move(std::vector<int>& level, float time);
     // the function changes the speed between crouch mode and default
     void changeSpeed();
 

@@ -18,6 +18,8 @@ private:
     float y;
     float speed = 0.2;
 
+    float CurrentFrame = 0;
+
     unsigned int pos = 0;
     unsigned int look = UP;
 
@@ -26,6 +28,7 @@ private:
 
     std::mt19937 gen;
 
+    void animate(float time);
     void adjustLoS(std::vector<int>& level);
 
 public:

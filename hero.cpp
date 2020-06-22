@@ -73,7 +73,7 @@ void Hero::checkForEnemies(std::vector<sf::FloatRect> &enemyRect, float time)
 
 }
 
-void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
+void Hero::move(std::vector<int>& level, float time)
 {
     int row = pos / LWIDTH;
     int col = pos % LWIDTH;
@@ -84,7 +84,7 @@ void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
     int lower_bound = (row+1) * TILESIZE - WALLSIZE - HEROH;
 
     // calling animate to make hero look properly
-    animate(time, CurrentFrame);
+    animate(time);
 
     // moving the hero according to a pressed button
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && left) {
@@ -180,7 +180,7 @@ void Hero::move(std::vector<int>& level, float time, float& CurrentFrame)
     view.setCenter(x + HEROW/2, y + HEROH/2);
 }
 
-void Hero::animate(float time, float &CurrentFrame)
+void Hero::animate(float time)
 {
     // animating hero depending on a pressed button
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {

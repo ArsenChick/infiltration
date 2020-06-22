@@ -11,15 +11,13 @@ void spawnCharacters(Hero &hero, Enemy* soldier);
 
 int main()
 {
-    float CurrentFrame = 0;
-
     // Creating the window
     sf::RenderWindow window(sf::VideoMode(640, 480), "Tilemap", sf::Style::Titlebar | sf::Style::Close);
     window.setFramerateLimit(60);
 
     // Loading hero
     sf::Texture hero_texture;
-    if (!hero_texture.loadFromFile("image.png"))
+    if (!hero_texture.loadFromFile("..\\infiltration\\assets\\image.png"))
         exit(EXIT_FAILURE);
 
     Hero hero;
@@ -27,7 +25,7 @@ int main()
 
     // loading enemy
     sf::Texture enemy_texture;
-    if (!enemy_texture.loadFromFile("enemy.png"))
+    if (!enemy_texture.loadFromFile("..\\infiltration\\assets\\enemy.png"))
         exit(EXIT_FAILURE);
 
     Enemy soldier[ENEMYN];
@@ -44,12 +42,12 @@ int main()
     spawnCharacters(hero, soldier);
 
     Map map;
-    if (!map.load("map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
+    if (!map.load("..\\infiltration\\assets\\map.png", sf::Vector2u(160, 160), level, LWIDTH, LHEIGHT))
         return -1;
 
     // loading font
     sf::Font font;
-    if (!font.loadFromFile("font.ttf"))
+    if (!font.loadFromFile("..\\infiltration\\assets\\font.ttf"))
     {
         exit(EXIT_FAILURE);
     }
@@ -102,7 +100,7 @@ int main()
 
         // checking collisions and moving the hero
         hero.checkForEnemies(enemyHitbox, time);
-        hero.move(level, time, CurrentFrame);
+        hero.move(level, time);
 
         // enemy routine
         for (int i = 0; i < ENEMYN; i++) {
