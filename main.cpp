@@ -201,19 +201,22 @@ int main()
 
 void spawnCharacters(Hero &hero, Enemy* soldier)
 {
+    // preparing the randomizer
     std::mt19937 gen;
     auto now = std::chrono::high_resolution_clock::now();
     gen.seed(now.time_since_epoch().count());
 
+    // placing the hero
     int hero_pos = gen() % (LHEIGHT*LWIDTH);
     hero.setStartPosition(hero_pos);
 
+    // making sure enemies won't spawn near the hero
     int row = hero_pos / LWIDTH;
     int col = hero_pos % LWIDTH;
 
     for (int i = 0; i < ENEMYN; i++) {
         int enemy_col, enemy_row;
-
+        // generate pos until it fits
         while(true) {
             enemy_col = gen() % LWIDTH;
             enemy_row = gen() % LHEIGHT;
@@ -221,7 +224,7 @@ void spawnCharacters(Hero &hero, Enemy* soldier)
                 (enemy_row < row - 1 || enemy_row > row + 1))
                 break;
         }
-
+        // spawning enemies
         unsigned int enemy_pos = enemy_row * LWIDTH + enemy_col;
         soldier[i].setStartPosition(enemy_pos);
     }

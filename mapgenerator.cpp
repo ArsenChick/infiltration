@@ -2,21 +2,25 @@
 #include <algorithm>
 
 MapGenerator::MapGenerator() {
+    // initalizing the randomizer
     auto now = std::chrono::high_resolution_clock::now();
     gen.seed(now.time_since_epoch().count());
 }
 
 void MapGenerator::levelGenerate(std::vector<int> &level)
 {
+    // making a tree-like level
     std::vector<bool> paths(LHEIGHT*LWIDTH, false);
     paths[0] = true;
     constructTree(level, paths, 0);
 
+    // adding extra routes
     float leftV; int addVertices;
     leftV = (LHEIGHT - 1) * (LWIDTH - 1);
     addVertices = gen() % int(leftV * 0.3 + 1);
     addVertices += int(leftV * 0.4);
 
+    // there's a random chance of placing route in a direction
     for(int i = 0; i < LHEIGHT*LWIDTH; i++) {
         if (gen() % 8 > 5) {
             addRoute(level, i, ROUTEUP);
@@ -45,6 +49,7 @@ void MapGenerator::levelGenerate(std::vector<int> &level)
 
 void MapGenerator::constructTree(std::vector<int> &tiles, std::vector<bool> &paths, int pos)
 {
+    // creating a vector of... functions!
     std::vector<int (MapGenerator::*)(std::vector<int> &tiles, std::vector<bool> &paths, int pos)> routes;
 
     routes.push_back(&MapGenerator::constructUp);
@@ -52,8 +57,10 @@ void MapGenerator::constructTree(std::vector<int> &tiles, std::vector<bool> &pat
     routes.push_back(&MapGenerator::constructRight);
     routes.push_back(&MapGenerator::constructLeft);
 
+    // shuffling it
     std::shuffle(routes.begin(), routes.end(), gen);
 
+    // and that's how we add routes in a random sequence
     int newpos;
     for(int i = 0; i < 4; i++) {
         if(-1 != (newpos = (this->*(routes[i]))(tiles, paths, pos))) {
@@ -62,6 +69,7 @@ void MapGenerator::constructTree(std::vector<int> &tiles, std::vector<bool> &pat
     }
 }
 
+// add a route leading up
 int MapGenerator::constructUp(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
     int row = pos / LWIDTH;
     int newpos = pos - LWIDTH;
@@ -76,6 +84,7 @@ int MapGenerator::constructUp(std::vector<int> &tiles, std::vector<bool> &paths,
     return -1;
 }
 
+// add a route leading down
 int MapGenerator::constructDown(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
     int row = pos / LWIDTH;
     int newpos = pos + LWIDTH;
@@ -90,6 +99,7 @@ int MapGenerator::constructDown(std::vector<int> &tiles, std::vector<bool> &path
     return -1;
 }
 
+// add a route leading right
 int MapGenerator::constructRight(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
     int col = pos % LWIDTH;
     int newpos = pos + 1;
@@ -104,6 +114,7 @@ int MapGenerator::constructRight(std::vector<int> &tiles, std::vector<bool> &pat
     return -1;
 }
 
+// add a route leading left
 int MapGenerator::constructLeft(std::vector<int> &tiles, std::vector<bool> &paths, int pos) {
     int col = pos % LWIDTH;
     int newpos = pos - 1;
@@ -118,6 +129,7 @@ int MapGenerator::constructLeft(std::vector<int> &tiles, std::vector<bool> &path
     return -1;
 }
 
+// add an extra route to the grid
 void MapGenerator::addRoute(std::vector<int> &tiles, int pos, unsigned int direction) {
     int row = pos / LWIDTH;
     int col = pos % LWIDTH;

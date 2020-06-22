@@ -59,7 +59,7 @@ public:
     // the function changes the speed between crouch mode and default
     void changeSpeed();
 
-    /*  the function outputs 1 if there's a elimination
+    /* the function outputs 1 if there's a elimination
      * the function outputs 0 if there's no elimination
      */
     int kill(sf::FloatRect enemyHitbox);
@@ -70,6 +70,5 @@ public:
     sf::View& getView() {return view;}
 
 };
-
 
 #endif // HERO_H
