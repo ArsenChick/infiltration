@@ -49,16 +49,13 @@ public:
 
     // loading a texture
     void load(sf::Texture* hero_texture);
-
     // choosing starting tile number
     void setStartPosition(unsigned int tileno);
 
     // the function updates available ways for hero's moving
     void checkForEnemies(std::vector<sf::FloatRect> &soldier, float time);
-
     // the function moves the hero
     void move(std::vector<int>& level, float time);
-
     // the function changes the speed between crouch mode and default
     void changeSpeed();
 
@@ -69,7 +66,6 @@ public:
 
     // getting hero's sprite
     sf::Sprite& getSprite() {return sprite;}
-
     // getting hero's view
     sf::View& getView() {return view;}
 
