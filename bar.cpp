@@ -3,15 +3,16 @@
 
 Toolsbar::Toolsbar(sf::Font fonts)
 {
+    // getting font
     font = fonts;
 }
 
 int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
 
-    // Getting time
+    // getting time
     int timeinsec = TIMEFORPLAY - static_cast<int>(time.getElapsedTime().asSeconds());
 
-    // Transformation of time to minute&seconds
+    // transformation of time to minute&seconds
     int minute = 0;
     int sec = 0;
     if (timeinsec >= 60) {
@@ -19,14 +20,14 @@ int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
         sec = timeinsec - minute * 60;
     } else sec = timeinsec;
 
-    // Transformation to string
+    // transformation to string
     std::ostringstream string;
 
     if (sec < 10) {
         string << minute << ":0" << sec;
     } else string << minute << ":" << sec;
 
-    // Establish parameters
+    // establish parameters
     text.setString("Time: " + string.str());
     text.setFont(font);
     text.setStyle(sf::Text::Bold);
@@ -37,10 +38,10 @@ int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
     text.setPosition(window.getView().getCenter().x - MAPSCALE*window.getSize().x/2,
                      window.getView().getCenter().y - MAPSCALE*window.getSize().y/2);
 
-    // Cleaning string
+    // cleaning string
     string.str("");
 
-    // Establish parameters
+    // establish parameters
     string << count_alive;
     enemy_number.setString("Enemies left: " + string.str());
     enemy_number.setFont(font);
@@ -52,9 +53,10 @@ int Toolsbar::draw(sf::RenderWindow &window, unsigned int count_alive) {
     enemy_number.setPosition(window.getView().getCenter().x - MAPSCALE*window.getSize().x/2,
                      window.getView().getCenter().y + MAPSCALE*window.getSize().y/2 - enemy_number.getCharacterSize() - 5);
 
-    // Draw
+    // draw
     window.draw(text);
     window.draw(enemy_number);
 
+    // return time from the start of game
     return timeinsec;
 }

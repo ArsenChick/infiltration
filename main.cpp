@@ -184,6 +184,7 @@ int main()
             if (endOfGame == 2)
                 text.setString("TIME'S UP");
 
+            // establishing all other parameters
             text.setFont(font);
             text.setStyle(sf::Text::Bold);
             text.setFillColor(sf::Color::Black);
