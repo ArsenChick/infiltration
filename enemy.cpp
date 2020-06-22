@@ -17,9 +17,9 @@ void Enemy::setStartPosition(unsigned int tileno)
     dmg_area = sf::FloatRect(x, y, ENEMYW, ENEMYH);
 
     // setting up graphical damage area
-    testbox.setPosition(x, y);
-    testbox.setSize(sf::Vector2f(ENEMYW, ENEMYH));
-    testbox.setFillColor(sf::Color(180, 0, 0, 100));
+    lineOfSight.setPosition(x, y);
+    lineOfSight.setSize(sf::Vector2f(ENEMYW, ENEMYH));
+    lineOfSight.setFillColor(sf::Color(180, 0, 0, 100));
 
     gen.seed(rand() % (int)x + y);
     clock.restart();
@@ -124,7 +124,7 @@ void Enemy::move(std::vector<int>& level, float time)
     adjustLoS(level);
 
     // updating graphical damage area
-    testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
+    lineOfSight.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
 
     // updating pos in the tiles
     pos = int(x)/TILESIZE + int(y)/TILESIZE * LWIDTH;
@@ -210,8 +210,8 @@ void Enemy::adjustLoS(std::vector<int>& level)
         break;
     }
     }
-    testbox.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
-    testbox.setSize(sf::Vector2f(dmg_area.width+2*LOSOFFSET, dmg_area.height+2*LOSOFFSET));
+    lineOfSight.setPosition(dmg_area.left-LOSOFFSET, dmg_area.top-LOSOFFSET);
+    lineOfSight.setSize(sf::Vector2f(dmg_area.width+2*LOSOFFSET, dmg_area.height+2*LOSOFFSET));
 }
 
 void Enemy::animate(float time)

@@ -129,7 +129,7 @@ int main()
         for (int i = 0; i < ENEMYN; i++) {
             if (soldier[i].status == ALIVE) {
                 count_alive ++;
-                window.draw(soldier[i].testbox);
+                window.draw(soldier[i].getLoS());
                 window.draw(soldier[i].getSprite());
             }
         }

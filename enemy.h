@@ -13,6 +13,7 @@ private:
     sf::Sprite sprite;
     sf::Texture *texture;
     sf::FloatRect dmg_area;
+    sf::RectangleShape lineOfSight;
 
     float x;
     float y;
@@ -40,9 +41,8 @@ public:
     void move(std::vector<int>& level, float time);
     int hunt(sf::FloatRect heroRect);
 
-    sf::RectangleShape testbox;
-
     sf::Sprite& getSprite() {return sprite;}
+    sf::RectangleShape getLoS() {return lineOfSight;}
 };
 
 
