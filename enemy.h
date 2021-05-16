@@ -1,70 +1,121 @@
 #ifndef ENEMY_H
 #define ENEMY_H
 
+/*!
+ * \defgroup GameChars Game characters
+ * \brief Main game character entities.
+ *
+ * This group contains links to classes
+ * which describe character entities in
+ * the game: Enemy and Hero.
+ *
+ * \note Need to show my mentor how
+ * Doxygen behaves strangely when dealing
+ * with member grouping in modules.
+ */
+
+/*! \file */
+
 #include <SFML/Graphics.hpp>
 #include <chrono>
 #include <random>
 #include "defines.h"
 
+/*!
+ * \ingroup GameChars
+ * \brief A class for %Enemy entity.
+ */
+
 class Enemy
 {
 
 private:
-    // graphical tools
+    ///@{
+    /*!
+     * \brief Graphical resourses.
+     *
+     * Needs to be stored throughout the program.
+     */
     sf::Sprite sprite;
     sf::Texture *texture;
-    // damage area rect
+    ///@}
+
+    //! Damage area rectangle.
     sf::FloatRect dmg_area;
-    // enemy's line of sight
+    //! %Enemy's line of sight rectangle
     sf::RectangleShape lineOfSight;
 
-    // x coordinate on the map
+    //! X coordinate on the map.
     float x;
-    // y coordinate on the map
+    //! Y coordinate on the map.
     float y;
 
-    // enemy's speed
+    //! %Enemy's speed.
     float speed = 0.2;
 
-    // current frame used for animation
+    //! Current frame used for animation.
     float CurrentFrame = 0;
 
-    // position in the tiles
+    //! Position in the tiles.
     unsigned int pos = 0;
-    // enemy's look (used for line of sight)
+    //! Direction of the %Enemy's look.
+    /*! Used for adjusting the line of sight. */
     unsigned int look = UP;
 
-    // sfml clock for calculations
+    //! SFML clock for calculations.
+    /*! Used as a base for the %Enemy's simple AI. */
     sf::Clock clock;
-    // hero's death timer
+    //! Time spent still.
+    /*! Acts as a death timer for the Hero. */
     float time_wait = -1;
 
-    // randomizer
+    //! Randomizer.
+    /*! Used for changing the directions. */
     std::mt19937 gen;
 
-    // default moving animation
+    //! Performs default moving animation.
+    /*! Function used primarily within move function.
+     * \param time represents the game state in terms of animation.
+     */
     void animate(float time);
-    // updating line of sight
+    //! Updates the rectangle of the line of sight.
+    /*! \param level represents the model for the current level.
+     */
     void adjustLoS(std::vector<int>& level);
 
 public:
-    // enemy's status - ALIVE or DEAD
+    //! %Enemy's status
+    /*! ALIVE or DEAD */
     unsigned int status = ALIVE;
 
-    // loading a texture
+    //! Loads a texture.
+    /*! \param enemy_texture texture to load.
+     */
     void load(sf::Texture *enemy_texture);
-    // choosing starting tile number
+    //! Spawns the %Enemy in a tile.
+    /*! \param tileno position to spawn the %Enemy in.
+     */
     void setStartPosition(unsigned int tileno);
 
-    // the function moves the enemy
+    //! Performs a movement action.
+    /*!
+     * \param level represents the model for the current level.
+     * \param time represents the game state in terms of animation.
+     */
     void move(std::vector<int>& level, float time);
-    // the function checks if the enemy has catched a hero
+    //! Checks if the Enemy has catched a Hero.
+    /*!
+     * \param heroRect rectangle representing Hero's hitbox.
+     * \return The status of the hunt.
+     * 0 if the Enemy does not have the %Hero in the line of sight,
+     * 1 if does, 2 if the %Hero stood long enough in the %Enemy's line of sight.
+     */
     int hunt(sf::FloatRect heroRect);
 
-    // getting enemy's sprite and line of sight
+    //! Getter for %Enemy's sprite.
     sf::Sprite& getSprite() {return sprite;}
+    //! Getter for %Enemy's line of sight.
     sf::RectangleShape getLoS() {return lineOfSight;}
 };
-
 
 #endif // ENEMY_H

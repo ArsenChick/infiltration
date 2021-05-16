@@ -4,21 +4,29 @@
 #include <SFML/Graphics.hpp>
 #include "defines.h"
 
+//! A class for game UI.
 class Toolsbar
 {
 private:
-    // font for demonstration
+    //! Font used for writings.
     sf::Font font;
-    // sfml clock for timer
+    //! SFML clock for the timer.
     sf::Clock time;
-    // text area for timer
+    //! Text area for displaying the timer.
     sf::Text text;
-    // text area for alive enemies
+    //! Text area for displaying the number of alive enemies.
     sf::Text enemy_number;
 public:
-    // constructor
+    //! Default constructor.
+    /*! \param fonts the font to load.
+     */
     Toolsbar(sf::Font fonts);
-    // draw timer and count alive enemies, also return time of play
+    //! Draws UI, also returning time left to play.
+    /*!
+     * \param window window area to draw UI onto.
+     * \param count_alive number of alive enemies.
+     * \return Time (in seconds) left on the timer.
+     */
     int draw (sf::RenderWindow &window, unsigned int count_alive);
 };
 

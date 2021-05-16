@@ -5,68 +5,106 @@
 #include <cmath>
 #include "defines.h"
 
+/*!
+ * \ingroup GameChars
+ * \brief A class for %Hero entity.
+ */
+
 class Hero
 {
 private:
-    // graphical tools
+    ///@{
+    /*!
+     * \brief Graphical resourses.
+     *
+     * Needs to be stored throughout the program.
+     */
     sf::Sprite sprite;
     sf::Texture *texture;
-    // dmg_area can be used for detecting collisions
+    ///@}
+
+    //! Used for detecting collisions with Enemies.
     sf::FloatRect dmg_area;
-    // view can be used for making a camera
+    //! %Hero's field of view
+    /*! Contains the part of the Map the player sees */
     sf::View view;
 
-    // x coordinate on the map
+    //! X coordinate on the map.
     float x;
-    // y coordinate on the map
+    //! Y coordinate on the map.
     float y;
 
-    // current frame used for animation
+    //! Current frame used for animation.
     float CurrentFrame = 0;
 
-    // hero's speed
+    //! Hero's speed.
     float speed = DEFAULTSPEED;
 
-    // ways that are available for moving in
+    ///@{
+    /*!
+     * \brief Directions that are available for moving into.
+     */
     bool up = true;
     bool down = true;
     bool right = true;
     bool left = true;
+    ///@}
 
-    // position in the tiles
+    //! Position in the tiles.
     unsigned int pos = 0;
 
-    // hero's look (used for line of sight)
+    //! Direction of the Hero's look.
+    /*! Used for adjusting the line of sight. */
     unsigned int look = UP;
 
-    // default moving animation
+    //! Performs default moving animation.
+    /*! Function used primarily within move function.
+     * \param time represents the game state in terms of animation.
+     */
     void animate(float time);
-    // updating line of sight
+    //! Updates the rectangle of the line of sight.
     void adjustLoS();
 
 public:
-    Hero(); // constructor
+    //! Constructor.
+    Hero();
 
-    // loading a texture
+    //! Loads a texture.
+    /*! \param hero_texture texture to load.
+     */
     void load(sf::Texture* hero_texture);
-    // choosing starting tile number
+    //! Spawns the %Hero in a tile.
+    /*! \param tileno position to spawn the %Hero in.
+     */
     void setStartPosition(unsigned int tileno);
 
-    // the function updates available ways for hero's moving
+    //! Checks the intersection between the %Hero and Enemy hitboxes.
+    /*!
+     * \param soldier a specific Enemy's hitbox.
+     * \param time represents the game time state.
+     */
     void checkForEnemies(std::vector<sf::FloatRect> &soldier, float time);
-    // the function moves the hero
+    //! Performs a movement action.
+    /*!
+     * \param level represents the model for the current level.
+     * \param time represents the game state in terms of animation.
+     */
     void move(std::vector<int>& level, float time);
-    // the function changes the speed between crouch mode and default
+    //! Changes the speed between crouch mode and default.
     void changeSpeed();
 
-    /* the function outputs 1 if there's a elimination
-     * the function outputs 0 if there's no elimination
+    //! Performs an elimination on the specific Enemy.
+    /*!
+     * \param enemyHitbox rectangle representing %Enemy's hitbox.
+     * \return The success status.
+     * 1 if there's a elimination,
+     * 0 if there's no elimination.
      */
     int kill(sf::FloatRect enemyHitbox);
 
-    // getting hero's sprite
+    //! Getter for %Hero's sprite.
     sf::Sprite& getSprite() {return sprite;}
-    // getting hero's view
+    //! Getter for %Hero's line of sight.
     sf::View& getView() {return view;}
 
 };
